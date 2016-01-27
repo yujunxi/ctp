@@ -16,7 +16,7 @@ public class UserInfo implements Serializable {
 	private Integer userInfoId;
 	private String realName;
 	private String tel;
-	private User user;
+//	private User user;
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -47,14 +47,14 @@ public class UserInfo implements Serializable {
 		this.tel = tel;
 	}
 	
-	@OneToOne(mappedBy = "userInfo")
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	@OneToOne(mappedBy = "userInfo")
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 
 }

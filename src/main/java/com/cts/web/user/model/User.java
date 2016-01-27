@@ -34,9 +34,9 @@ public class User implements Serializable {
 	@Column(name = "nice_name", length = 32)
 	private String nice_name;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_info_id",referencedColumnName = "userInfoId", unique = true)
-	private UserInfo userInfo;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "user_info_id",referencedColumnName = "userInfoId", unique = true)
+//	private UserInfo userInfo;
 
 	@Override
 	public String toString() {
@@ -76,12 +76,12 @@ public class User implements Serializable {
 		this.nice_name = nice_name;
 	}
 
-	public UserInfo getUserInfo() {
-		return userInfo;
-	}
-
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
-	}
+//	public UserInfo getUserInfo() {
+//		return userInfo;
+//	}
+//
+//	public void setUserInfo(UserInfo userInfo) {
+//		this.userInfo = userInfo;
+//	}
 
 }

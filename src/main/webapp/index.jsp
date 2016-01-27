@@ -6,8 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>User List</title>
+<link href="/resources/lib/bootstrap.min.css">
+<link href="/resources/css/app.css">
 </head>
 <body>
+ <div class="container">测试样式</div>
  <a href="/user/list">User Test</a><br/>
 </body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
 </html>
