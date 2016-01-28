@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 public class UserInfo implements Serializable {
 
 	private static final long serialVersionUID = 4394286525597767995L;
-	
+
 	private Long userInfoId;
 	private String realName;
 	private String address;
@@ -41,13 +41,31 @@ public class UserInfo implements Serializable {
 		this.realName = realName;
 	}
 
-	@Column(name = "tel" , nullable = true , length = 20)
+	@Column(name = "tel", nullable = true, length = 20)
 	public String getTel() {
 		return tel;
 	}
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	@Column(name = "address", nullable = true, length = 200)
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Column(name = "email", nullable = true, length = 50)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@OneToOne(mappedBy = "userInfo")
@@ -58,24 +76,4 @@ public class UserInfo implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	@Column(name = "address" , nullable = true , length = 200)
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	@Column(name = "email" , nullable = true , length = 50)
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	
 }
