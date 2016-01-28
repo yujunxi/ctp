@@ -20,14 +20,6 @@
                 <td>Name:</td>
                 <td><form:input path="name"/></td>
             </tr>
-            <tr>
-                <td>Nice name:</td>
-                <td><form:input path="nice_name"/></td>
-            </tr>
-            <tr>
-                <td>Age:</td>
-                <td><form:input path="age"/></td>
-            </tr>
         </table>
         <input type="submit" value="Save">
     </form:form>

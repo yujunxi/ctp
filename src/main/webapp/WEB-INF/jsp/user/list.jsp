@@ -13,15 +13,11 @@
         <tr>
             <td>ID</td>
             <td>Name</td>
-            <td>NiceName</td>
-            <td>Age</td>
         </tr>
         <c:forEach var="user" items="${userList }" >
             <tr>
                 <td>${user.id }</td>
                 <td>${user.name }</td>
-                <td>${user.nice_name }</td>
-                <td>${user.age }</td>
                 <td><a href="show/${user.id }">详细</a></td>
                 <td><a href="edit/${user.id }">编辑</a></td>
                 <td><a href="del/${user.id }">删除</a></td>

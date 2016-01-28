@@ -11,11 +11,6 @@
     <form action="add" method="post">
         
         Name:<input id="name" name="name" type="text" />
-        <br>
-        Nice Name:<input id="nice_name" name="nice_name" type="text" />
-        <br>
-        Age:<input id="age" name="age" type="text" />
-        <br>
         <input type="submit" value="提交">
     </form>
 </body>

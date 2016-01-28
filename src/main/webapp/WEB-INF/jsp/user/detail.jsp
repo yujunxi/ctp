@@ -11,9 +11,5 @@
     <c:out value="${user.id }"></c:out>
     <br>
     <c:out value="${user.name }"></c:out>
-    <br>
-    <c:out value="${user.nice_name }"></c:out>
-    <br>
-    <c:out value="${user.age }"></c:out>
 </body>
 </html>
