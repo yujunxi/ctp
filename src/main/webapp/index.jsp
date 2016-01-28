@@ -6,8 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>User List</title>
-<link href="/resources/lib/bootstrap.min.css">
-<link href="/resources/css/app.css">
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
 </head>
 <body>
  <div class="container">测试样式</div>

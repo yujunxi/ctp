@@ -14,18 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cts.web.user.model.User;
 import com.cts.web.user.model.UserInfo;
-import com.cts.web.user.service.IUserInfoService;
-import com.cts.web.user.service.IUserService;
+import com.cts.web.user.service.UserInfoService;
+import com.cts.web.user.service.UserService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/ctp/user")
 public class UserController {
 
     @Resource(name="userService")
-    private IUserService userService;
+    private UserService userService;
     
     @Resource(name="userInfoService")
-    private IUserInfoService userInfoService;
+    private UserInfoService userInfoService;
     
     @RequestMapping(value="/count",method=RequestMethod.GET)
     public ModelAndView userCount() {

@@ -34,15 +34,9 @@ public class User implements Serializable {
 	@Column(name = "nice_name", length = 32)
 	private String nice_name;
 
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "user_info_id",referencedColumnName = "userInfoId", unique = true)
-//	private UserInfo userInfo;
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", user_name=" + name + ", age=" + age
-				+ ", nice_name=" + nice_name + "]";
-	}
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_info_id",referencedColumnName = "userInfoId", unique = true)
+	private UserInfo userInfo;
 
 	public final Long getId() {
 		return id;
@@ -76,12 +70,71 @@ public class User implements Serializable {
 		this.nice_name = nice_name;
 	}
 
-//	public UserInfo getUserInfo() {
-//		return userInfo;
-//	}
-//
-//	public void setUserInfo(UserInfo userInfo) {
-//		this.userInfo = userInfo;
-//	}
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", age=" + age
+				+ ", nice_name=" + nice_name + ", userInfo=" + userInfo + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((age == null) ? 0 : age.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((nice_name == null) ? 0 : nice_name.hashCode());
+		result = prime * result
+				+ ((userInfo == null) ? 0 : userInfo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (age == null) {
+			if (other.age != null)
+				return false;
+		} else if (!age.equals(other.age))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (nice_name == null) {
+			if (other.nice_name != null)
+				return false;
+		} else if (!nice_name.equals(other.nice_name))
+			return false;
+		if (userInfo == null) {
+			if (other.userInfo != null)
+				return false;
+		} else if (!userInfo.equals(other.userInfo))
+			return false;
+		return true;
+	}
+	
+	
 
 }
