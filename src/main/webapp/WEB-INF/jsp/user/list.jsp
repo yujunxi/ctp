@@ -6,9 +6,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>User List</title>
+<script type="text/javascript">
+	function test(){
+		alert("test");
+	}
+</script>
 </head>
 <body>
-    <a href="add">Add</a>
+	<input type="button" value="button" onclick='test()'/>
+    <a href="ctp/user/add">Add</a>
     <table>
         <tr>
             <td>ID</td>
@@ -18,9 +24,9 @@
             <tr>
                 <td>${user.id }</td>
                 <td>${user.name }</td>
-                <td><a href="show/${user.id }">详细</a></td>
-                <td><a href="edit/${user.id }">编辑</a></td>
-                <td><a href="del/${user.id }">删除</a></td>
+                <td><a href="ctp/user/show/${user.id }">详细</a></td>
+                <td><a href="ctp/user/edit/${user.id }">编辑</a></td>
+                <td><a href="ctp/user/del/${user.id }">删除</a></td>
             </tr>
         </c:forEach>
     </table>

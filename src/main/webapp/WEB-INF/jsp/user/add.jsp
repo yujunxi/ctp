@@ -6,10 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Add User</title>
+
 </head>
 <body>
+	
     <form action="add" method="post">
-        
         Name:<input id="name" name="name" type="text" />
         <input type="submit" value="提交">
     </form>

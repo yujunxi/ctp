@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>后台管理系统</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+
+</head>
+<body>
+	<nav class="navbar navbar-default">
+	<div class="navbar-header">
+		<div class="navbar-brand">后台管理系统</div>
+	</div>
+	<ul class="nav navbar-nav navbar-left">
+		<li><a id="index">首页</a></li>
+		<li><a id="about">关于</a></li>
+	</ul>
+	</nav>
+	<div id="content"></div>
+</body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript">
+$("#index").click(function(e){
+	$("#content").load("/user/test",function(response,status,xhr){
+	});
+	
+})
+</script>
+</html>
