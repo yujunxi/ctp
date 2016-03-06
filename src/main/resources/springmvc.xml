@@ -64,6 +64,7 @@
 		    <prop key="date_format">yyyy-MM-dd</prop>
 		    <prop key="number_format">#.##</prop>
 		    <!-- 自动导入的模板 -->
+		    <prop key="auto_include">head.ftl</prop>
 		   </props>
 		  </property>
 	</bean>

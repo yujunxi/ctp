@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>系统管理</title>
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+</head>
+
+<body>
+<table class="table" id="table" data-url="http://localhost:8080/ctp/user/getUserList"></table>
+</body>
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript">
+$('#table').bootstrapTable({
+    columns: [{
+        field: 'id',
+        title: 'Item ID'
+    }, {
+        field: 'account',
+        title: 'Item Name'
+    }, {
+        field: 'price',
+        title: 'Item Price'
+    }]
+});
+</script>
+</html>

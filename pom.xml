@@ -14,6 +14,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- json -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -29,6 +30,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.6.3</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -92,7 +94,6 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>4.0.3.RELEASE</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework</groupId>
