@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户修改</title>
+</head>
+<body>
+	<ol class="breadcrumb">
+		<li>首页</li>
+		<li><a href="javascript:void(0);" onclick="_return()">会员管理</a></li>
+		<li>账号修改</li>
+	</ol>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				账号修改
+			</h3>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" id="form1"
+				action="<@path/>/ctp/user/editUser" method="POST">
+
+				<input type="hidden" name="account_code" value="${user.accountCode}">
+				<input type="hidden" name="account" value="${user.account}">
+
+				<div class="form-group">
+					<label for="account" class="col-sm-2 control-label">会员账号</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="account"
+							placeholder="会员账号" value="${user.account}" disabled>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-2 control-label">密码</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="password"
+							name="password" placeholder="密码" value="${user.password}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="button" class="btn btn-primary" onclick="_save()">保存</button>
+						<button type="button" class="btn btn-default" onclick="_return()">返回</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+</body>
+<script type="text/javascript">
+function _save(){
+	$.ajax({
+        url:"<@path/>/ctp/user/editUser",
+        type:"POST",
+        data:$("#form1").serialize(),
+        success:function(data){
+            var e = $.find(".active");
+    		showContent(
+    				e,"/ctp/user/userMain",null);
+        },
+        error:function(data){
+        }
+    })
+}
+
+function _return(){
+	 var e = $.find(".active");
+	 showContent(e,"/ctp/user/userMain",null);
+}
+
+</script>
+</html>

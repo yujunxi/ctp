@@ -26,7 +26,7 @@ public class ClientController {
 	 * ¿Í»§¶Ë
 	 * @return
 	 */
-	@RequestMapping(value = "" , method = RequestMethod.GET)
+	@RequestMapping(value = "/home" , method = RequestMethod.GET)
 	public String homeClient(){
 		return "index";
 	}

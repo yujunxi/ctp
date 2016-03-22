@@ -12,7 +12,7 @@ import com.cts.web.user.model.User;
 import com.cts.web.user.service.UserService;
 
 @Service("userService")
-public class UserServiceImpl extends GenericServiceImpl<User,Long> implements UserService {
+public class UserServiceImpl extends GenericServiceImpl<User,String> implements UserService {
 
     @Resource(name="userDao")
     private UserDao dao;
@@ -22,7 +22,11 @@ public class UserServiceImpl extends GenericServiceImpl<User,Long> implements Us
     }
 
     @Override
-    protected GenericDao<User,Long> getDao() {
+    protected GenericDao<User,String> getDao() {
         return this.dao;
     }
+
+	public Boolean validate(String account, String password) {
+		return dao.validate(account, password);
+	}
 }

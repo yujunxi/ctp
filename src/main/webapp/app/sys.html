@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <title>后台管理系统</title>
 <link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
-<link href="/resources/css/app.css" rel="stylesheet">
-<style type="text/css">
-
-</style>
+<link href="/resources/css/sys.css" rel="stylesheet">
+<style type="text/css"></style>
 </head>
 <body>
-	<nav class="navbar navbar-blue navbar-fixed-top">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 			<div class="navbar-brand">后台管理系统</div>
@@ -27,7 +25,8 @@
 			<!-- slidingmenu -->
 			<div class="sidebar" style="width:210px;">
 				<ul id="menu" class="nav nav-sidebar">
-					<li class="active"><a id="sys_main" href="javascript:void(0);" onclick="showContent(this,'/ctp/sys/sysMain')">系统管理</a></li>
+					<li class="active"><a id="home_main" href="javascript:void(0);" onclick="">首页</a></li>
+					<li><a id="sys_main" href="javascript:void(0);" onclick="showContent(this,'/ctp/sys/sysMain','')">系统管理</a></li>
 					<li><a id="user_main" href="javascript:void(0);" onclick="showContent(this,'/ctp/user/userMain')">会员管理</a></li>
 					<li><a href="javascript:void(0);" onclick="showContent(this)">商品管理</a></li>
 					<li><a href="javascript:void(0);" onclick="showContent(this)">订单管理</a></li>
@@ -37,7 +36,7 @@
 				</ul>
 			</div><!-- slidingmenu end -->
 			<div class="col-md-2"></div>
-			<div class="col-md-7" style="margin-top:70px;">
+			<div class="col-md-10" style="margin-top:70px;">
 				<div id="content">
 					
 				</div>
@@ -46,17 +45,16 @@
 	</div>
 </body>
 <script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
-		$("#content").load("/ctp/sys/sysMain",
-				function(response, status, xhr) {
-				});
 	})
-	function showContent(e,url){
-		console.log(url)
+	function showContent(e,url,data){
 		$("#menu li.active").removeClass("active");
 		$(e).closest("li").addClass("active");
-		$("#content").load(url,function(response, status, xhr) {
+		$("#content").load(url,data,function(response, status, xhr) {
 			
 		});
 	}

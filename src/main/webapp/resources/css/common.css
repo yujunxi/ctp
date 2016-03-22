@@ -1,0 +1,27 @@
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,input{
+	margin: 0;padding: 0
+}
+body{
+	font-size: 12px;
+}
+img{
+	border: none;
+}
+.left{
+	float:left;
+}
+.right{
+	float:right;
+}
+.m-l{
+	margin-left:10px;
+}
+.m-r{
+	margin-right:10px;
+}
+.m-t{
+	margin-top:10px;
+}
+.m-b{
+	margin-bottom:10px;
+}

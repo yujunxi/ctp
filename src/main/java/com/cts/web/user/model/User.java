@@ -19,33 +19,33 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity(name = "User")
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	public User() {
-		super();
-	}
-
-	private Long id;
+	private static final long serialVersionUID = 167908325591693579L;
+	
+	private String accountCode;
 	private String account;
 	private String password;
 	private String username;
 	private String email;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date createTime;
+	private Integer status;
 	private UserInfo userInfo;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false)
-	public final Long getId() {
-		return id;
+	public User() {
+		super();
 	}
 
-	public final void setId(Long id) {
-		this.id = id;
+	@Id
+	@Column(name = "ACCOUNT_CODE", nullable = false)
+	public final String getAccountCode() {
+		return accountCode;
+	}
+
+	public final void setAccountCode(String accountCode) {
+		this.accountCode = accountCode;
 	}
 	
-	@Column(name = "account", nullable = false ,length = 32)
+	@Column(name = "ACCOUNT", nullable = false ,length = 32)
 	public String getAccount() {
 		return account;
 	}
@@ -54,7 +54,7 @@ public class User implements Serializable {
 		this.account = account;
 	}
 
-	@Column(name = "password", nullable = false ,length = 32)
+	@Column(name = "PASSWORD", nullable = false ,length = 32)
 	public String getPassword() {
 		return password;
 	}
@@ -63,7 +63,7 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
-	@Column(name = "username", length = 32)
+	@Column(name = "USERNAME", length = 32)
 	public String getUsername() {
 		return username;
 	}
@@ -72,7 +72,7 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	@Column(name = "email", length = 32)
+	@Column(name = "EMAIL", length = 32)
 	public String getEmail() {
 		return email;
 	}
@@ -82,7 +82,7 @@ public class User implements Serializable {
 	}
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", length = 19)
+	@Column(name = "CREATE_TIME", length = 19)
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -92,7 +92,7 @@ public class User implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_info_id", referencedColumnName = "userInfoId", unique = true)
+	@JoinColumn(name = "USERINFO_CODE", referencedColumnName = "USERINFO_CODE", unique = true)
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
@@ -103,9 +103,10 @@ public class User implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", account=" + account + ", password="
-				+ password + ", username=" + username + ", email=" + email
-				+ ", createTime=" + createTime + ", userInfo=" + userInfo + "]";
+		return "User [accountCode=" + accountCode + ", account=" + account
+				+ ", password=" + password + ", username=" + username
+				+ ", email=" + email + ", createTime=" + createTime
+				+ ", userInfo=" + userInfo + "]";
 	}
 
 	@Override
@@ -114,9 +115,10 @@ public class User implements Serializable {
 		int result = 1;
 		result = prime * result + ((account == null) ? 0 : account.hashCode());
 		result = prime * result
+				+ ((accountCode == null) ? 0 : accountCode.hashCode());
+		result = prime * result
 				+ ((createTime == null) ? 0 : createTime.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result
@@ -140,6 +142,11 @@ public class User implements Serializable {
 				return false;
 		} else if (!account.equals(other.account))
 			return false;
+		if (accountCode == null) {
+			if (other.accountCode != null)
+				return false;
+		} else if (!accountCode.equals(other.accountCode))
+			return false;
 		if (createTime == null) {
 			if (other.createTime != null)
 				return false;
@@ -149,11 +156,6 @@ public class User implements Serializable {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (password == null) {
 			if (other.password != null)

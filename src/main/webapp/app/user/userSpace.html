@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>个人详细页</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<link href="/resources/css/detail.css" rel="stylesheet">
+<style type="text/css">
+body{
+	background-color:#F4F5F7;
+}
+.
+</style>
+</head>
+<body>
+	<div class="mNavBar">
+		<div class="topBar">
+			<div class="container">
+				<div class="left">
+					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+					<a href="javascript:void(0);">
+						首页
+					</a>
+				</div>
+				<div class="right">
+					<a>消息<span class="badge">0</span></a>
+					<a>订单</a>
+					<a href="/ctp/user/toUserDetail">${Session.account!""}</a>
+					<a href="/ctp/account/logout">退出</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="user-panel">
+			<div class="left user-image">
+				<img alt="" src="/resources/images/goods.png" style="border-radius:50%;width:120px;">
+				<br/>
+				<input type="button" class="btn btn-default" value="修改头像">
+			</div>
+		</div>
+		<div class="tool" id="tool">
+			<ul>
+				<li class="active">
+					<a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						个人资料
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" onclick="showContent(this,'/ctp/goods/publishMain',null)">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						发布商品
+					</a>
+				</li>
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">收藏</a></li>
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">留言</a></li>
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">订单</a></li>
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">购买记录</a></li>
+			</ul>
+		</div>
+		
+		<div id="user-content">
+			
+		</div>
+		<div style="height:30px;"></div>
+	</div>
+</body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#user-content").load("/ctp/user/getUserDetail"
+			,null,function(response, status, xhr) {
+		
+	});
+	
+})
+
+function showContent(e,url,data){
+	$("#tool li.active").removeClass("active");
+	$(e).closest("li").addClass("active");
+	$("#user-content").load(url,data,function(response, status, xhr) {
+		
+	});
+}
+</script>
+</html>

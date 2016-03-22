@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ public class GenericDaoImpl<T ,PK extends Serializable> implements GenericDao<T 
     @Resource(name="sessionFactory")
     private SessionFactory sessionFactory;
 
-    protected void setClazz(Class<T> clazzToSet) {
+    protected void setClazz(Class<T> clazzToSet) { 
         this.clazz = clazzToSet;
     }
     
@@ -27,7 +28,7 @@ public class GenericDaoImpl<T ,PK extends Serializable> implements GenericDao<T 
     }
 
     
-    public T findOne(PK id) {
+    public T get(PK id) {
         return (T)getCurrentSession().get(clazz, id);
     }
 
@@ -54,8 +55,17 @@ public class GenericDaoImpl<T ,PK extends Serializable> implements GenericDao<T 
 
     
     public void deleteById(PK entityId) {
-        T entity = findOne(entityId);
+        T entity = get(entityId);
         delete(entity);
     }
+
+	public boolean isExist(String args) {
+		
+		String hql = "from User where account=?";
+		Query q = getCurrentSession().createQuery(hql);
+		q.setParameter(0, args);
+		
+		return q.list().size()> 0?true:false;
+	}
     
 }

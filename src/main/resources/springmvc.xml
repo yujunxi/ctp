@@ -25,20 +25,9 @@
 	<mvc:resources location="/resources/css/" mapping="/resources/css/**"/> 
 	<mvc:resources location="/resources/js/" mapping="/resources/js/**"/>
 	<mvc:resources location="/resources/lib/" mapping="/resources/lib/**"/>
+	<mvc:resources location="/resources/fonts/" mapping="/resources/fonts/**"/> 
 	
 	<mvc:annotation-driven/>
-    
-    <!-- 定义视图解析器 -->
-    <!-- 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/WEB-INF/jsp/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-    </bean>
-    -->
     
     <!-- 配置freeMarker的模板路径 -->
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -79,6 +68,10 @@
 		<property name="cache" value="true" />
 		<property name="suffix" value=".html" />
 		<property name="order" value="0" />
+		<property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+        <property name="requestContextAttribute" value="request"/>
 	</bean>
    
 </beans>

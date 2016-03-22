@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface GenericDao<T , PK extends Serializable> {
 
-	public T findOne(PK id);
+	public T get(PK id);
 
 	public List<T> findAll();
 
@@ -19,5 +19,7 @@ public interface GenericDao<T , PK extends Serializable> {
 	public void delete(T entity);
 
 	public void deleteById(PK entityId);
+	
+	public boolean isExist(String args);
 
 }

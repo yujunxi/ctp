@@ -16,4 +16,6 @@ public interface GenericService<T, PK extends Serializable> {
 	public void delete(T entity);
 
 	public void deleteById(PK entityId);
+	
+	public boolean isExist(String args);
 }

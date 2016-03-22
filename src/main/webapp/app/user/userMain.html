@@ -3,15 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <title>会员管理</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
 </head>
 <body>
-会员管理
+
+	<ol class="breadcrumb">
+		<li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			首页</li>
+		<li>会员管理</li>
+	</ol>
+
+	<div id="content">
+		<div id="toolbar" style="margin-bottom:-45px;">
+			<button id="remove" class="btn btn-danger" disabled>
+				<i class="glyphicon glyphicon-remove"></i> Delete
+			</button>
+		</div>
+		<!-- options -->
+
+		<table class="table" id="table"
+			data-url="<@path/>/ctp/user/getUserList" data-silent="true"
+			data-search="true">
+		</table>
+		<!-- table -->
+	</div>
 </body>
-<script type="text/javascript">
-	$.ajax({ 
-		url: "/ctp/user/getAllUser",
-		success: function(data){
-  		}
-	});
-</script>
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script>
+<script type="text/javascript" src="/resources/js/user.js"></script>
 </html>

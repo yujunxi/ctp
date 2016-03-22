@@ -14,7 +14,7 @@ public abstract class GenericServiceImpl <T , PK extends Serializable> implement
     protected abstract GenericDao<T , PK> getDao();
 
     public T findOne(PK id) {
-        return getDao().findOne(id);
+        return getDao().get(id);
     }
 
     public List<T> findAll() {
@@ -35,6 +35,10 @@ public abstract class GenericServiceImpl <T , PK extends Serializable> implement
 
     public void deleteById(PK entityId) {
     	getDao().deleteById(entityId);
+    }
+    
+    public boolean isExist(String args){
+		return getDao().isExist(args);
     }
 
 }

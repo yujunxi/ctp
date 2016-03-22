@@ -1,0 +1,60 @@
+/*panel*/
+.user-panel{
+	height:200px;
+	background: #FFF;
+	border-radius: 4px;
+	border:1px solid #E6E7E9;
+	font-size :16px;
+	font-family:"Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
+	margin-top: 10px;
+}
+.user-image{
+	height: 200px;
+	width:200px;
+	margin-left: 70px;
+	padding-top: 20px;
+	border-right: 1px solid #E6E7E9;
+}
+.user-image input{
+	margin-top: 10px;
+	margin-left: 20px;
+}
+.user-info{
+
+}
+/*tool*/
+.tool{
+	height:50px;
+	background: #FFF;
+	border-radius: 4px;
+	border:1px solid #E6E7E9;
+	font-size :16px;
+	font-family:"Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
+	margin-top: 10px;
+	padding-left: 20px;
+	line-height: 46px;
+}
+.tool ul{
+	list-style-type: none;
+}
+.tool ul li{
+	float:left;
+	margin-right:30px;
+}
+ul li.active{
+	border-bottom:3px solid #1AA3F1;
+}
+/*content*/
+.user-content{
+	margin-bottom: 30px;
+}
+.detail{
+	height:400px;
+	background: #FFF;
+	border-radius: 4px;
+	border:1px solid #E6E7E9;
+	font-size :16px;
+	font-family:"Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
+	margin-top: 10px;
+}
+
