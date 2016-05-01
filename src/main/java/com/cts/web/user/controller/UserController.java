@@ -5,23 +5,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cts.common.util.MD5;
+import com.cts.web.goods.model.Goods;
+import com.cts.web.goods.service.GoodsService;
 import com.cts.web.user.model.User;
 import com.cts.web.user.model.UserInfo;
 import com.cts.web.user.service.UserInfoService;
@@ -40,6 +41,9 @@ public class UserController {
     
     @Resource(name="userInfoService")
     private UserInfoService userInfoService;
+    
+    @Autowired
+    private GoodsService goodsService;
     
     @RequestMapping(value = "userMain" , method = {RequestMethod.GET})
     public ModelAndView userMain(){
@@ -65,9 +69,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getUser" , method = {RequestMethod.POST} )
-    public @ResponseBody User getUser(@RequestParam("account") String account){
-    	User user = userService.findOne(account);
-    	return user;
+    public @ResponseBody User getUser(@RequestParam("id") String id){
+    	return userService.findOne(id);
     }
     
     /**
@@ -75,9 +78,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/toEditUser" , method = {RequestMethod.POST})
-    public ModelAndView toEditUser(@RequestParam("account") String account){
+    public ModelAndView toEditUser(@RequestParam("id") String id){
     	ModelAndView mav = new ModelAndView();
-    	User user = userService.findOne(account);
+    	User user = userService.findOne(id);
     	mav.addObject("user", user);
     	mav.setViewName("/user/userEdit");
     	return mav;
@@ -88,9 +91,19 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/space" , method = {RequestMethod.GET})
-    public ModelAndView userSpace(){
+    public ModelAndView userSpace(HttpSession session){
     	ModelAndView mav = new ModelAndView();
-    	mav.setViewName("/user/userSpace");
+    	try{
+    		String account = session.getAttribute("account").toString();
+    		List<Goods> goodsList = goodsService.findBySeller(account);
+    		if(account!=null&&!account.equals("")){
+    			mav.addObject("num",goodsList.size());
+    			mav.addObject("time", new Date());
+    			mav.setViewName("/user/userSpace");
+    		}
+    	}catch(Exception e){
+    		mav.setViewName("redirect:/ctp/account/login");
+    	}
     	return mav;
     }
     
@@ -103,7 +116,8 @@ public class UserController {
     public ModelAndView getUserDetail(HttpSession session){
     	ModelAndView mav = new ModelAndView();
     	String account = session.getAttribute("account").toString();
-    	User user = userService.findOne(account);
+    	List<User> userList = userService.findByAccount(account);
+    	User user = userList.get(0);
     	mav.setViewName("/user/userDetail");
     	mav.addObject("userInfo", user.getUserInfo());
     	return mav;
@@ -116,17 +130,30 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/editUserDetail" , method = {RequestMethod.POST})
+    @ResponseBody
     public Map<String,Object> editUserDetail(HttpServletRequest req 
 			, HttpServletResponse rep){
     	String userInfoId = req.getParameter("userInfoCode");
     	int id = Integer.parseInt(userInfoId);
-    	System.out.println(id);
-    	UserInfo userInfo = userInfoService.findOne(id);
-    	userInfo.setAddress("hahaha");
-    	userInfoService.update(userInfo);
-    	Map<String,String> result = new HashMap<String, String>();
-    	result.put("msg", "修改成功");
-    	return null;
+    	String address = req.getParameter("address");
+    	String tel = req.getParameter("tel");
+    	String username = req.getParameter("username");
+    	String realname = req.getParameter("realname");
+    	String email = req.getParameter("email");
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	try{
+    		UserInfo userInfo = userInfoService.findOne(id);
+        	userInfo.setAddress(address);
+        	userInfo.setTel(tel);
+        	userInfo.setUsername(username);
+        	userInfo.setRealname(realname);
+        	userInfo.setEmail(email);
+        	userInfoService.update(userInfo);
+        	result.put("msg", "修改成功");
+    	}catch(Exception e){
+    		result.put("msg", "修改失败");
+    	}
+    	return result;
     }
     
     /**
@@ -137,20 +164,62 @@ public class UserController {
     public @ResponseBody Map<String,Object> editUser(HttpServletRequest req 
 			, HttpServletResponse rep){
     	Map<String , Object> result = new HashMap<String , Object>();
-    	String account = req.getParameter("account_code");
-    	String account2 = req.getParameter("account");
+    	String id = req.getParameter("id");
+    	String account = req.getParameter("account");
     	String password = req.getParameter("password");
-    	
-    	User user = userService.findOne(account);
-    	user.setAccount(account2);
-    	user.setPassword(password);
-    	user.setEmail("123@qq.com");
-    	user.setCreateTime(new Date());
-    	
-    	userService.update(user);
-    	result.put("msg", "修改成功");
+    	String mail = req.getParameter("mail");
+    	try{
+    		User user = userService.findOne(id);
+        	user.setAccount(account);
+        	user.setEmail(mail);
+        	
+        	if(password!=null&&!"".equals(password)){
+        		user.setPassword(MD5.getMD5(password));
+        	}
+        	userService.update(user);
+        	result.put("msg", "修改成功");
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		result.put("msg", "修改失败");
+    	}
     	return result;
     }
+    
+    @RequestMapping(value = "/add" ,method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> add(User user,HttpServletRequest req 
+			, HttpServletResponse rep ,HttpSession session){
+    	Map<String,Object> msg = new HashMap<String, Object>();
+		MD5 md5 = new MD5();
+		
+		String account = user.getAccount();
+		
+		try{
+			boolean flag = userService.isExist(account);
+			if(!flag){
+				
+				String password = md5.getMD5ofStr(user.getPassword());
+				
+				user.setAccount(account);
+				user.setPassword(password);
+				user.setCreateTime(new Date());
+				user.setStatus(0);
+				UserInfo userInfo = new UserInfo();
+				user.setUserInfo(userInfo);
+						
+				userService.create(user);
+				msg.put("msg", "添加成功");
+			}else{
+				msg.put("msg", "系统存在用户");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			msg.put("msg", "添加失败");
+		}
+		
+		return null;
+    }
+
     
     /**
      * 修改个人信息
@@ -167,17 +236,55 @@ public class UserController {
     	return result;
     }
     
+    @RequestMapping(value = "/changeStatus" , method = { RequestMethod.POST})
+    public @ResponseBody Map<String , Object> change(@RequestParam("id") String id){
+    	Map<String ,Object> result = new HashMap<String, Object>();
+    	try{
+    		User user = userService.findOne(id);
+        	if(user.getStatus()==0){
+        		user.setStatus(1);
+        	}else{
+        		user.setStatus(0);
+        	}
+        	userService.update(user);
+        	result.put("msg", "操作成功");
+    	}catch(Exception e){
+    		result.put("msg", "操作失败");
+    	}
+    	return result;
+    }
     
     /**
      * 修改密码
      * @param password
      * @return
      */
-    @RequestMapping(value = "/editPassword" , method = {RequestMethod.POST})
+    @RequestMapping(value = "/resetPwd" , method = {RequestMethod.GET})
     @ResponseBody 
-    public Map<String , Object> editPassword(@RequestParam("password") String password){
-    	return null;
+    public Map<String , Object> resetPwd(){
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	try{
+    		result.put("pwd", getRandomPwd());
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		result.put("pwd", "");
+    	}
+    	return result;
     }
+    
+	public String getRandomPwd() {
+		Random rd = new Random();
+		String n = "";
+		int getNum;
+		do {
+			getNum = Math.abs(rd.nextInt()) % 10 + 48;// 产生数字0-9的随机数
+			// getNum = Math.abs(rd.nextInt())%26 + 97;//产生字母a-z的随机数
+			char num1 = (char) getNum;
+			String dn = Character.toString(num1);
+			n += dn;
+		} while (n.length() < 6);
+		return n;
+	}
     
     
     /**
@@ -186,9 +293,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/delUser" , method = {RequestMethod.POST,RequestMethod.GET} )
-    public @ResponseBody Map<String,Object> delUser(@RequestParam("account") String account){
+    public @ResponseBody Map<String,Object> delUser(@RequestParam("id") String id){
     	Map<String , Object> result = new HashMap<String , Object>();
-    	userService.deleteById(account);
+    	userService.deleteById(id);
     	result.put("msg", "删除成功");
     	return result;
     }

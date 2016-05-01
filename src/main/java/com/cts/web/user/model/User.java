@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "User")
@@ -21,14 +22,22 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 167908325591693579L;
 	
-	private String accountCode;
+	//用户注册ID
+	private String id;
+	//登录账号
 	private String account;
+	//登录密码
 	private String password;
+	//用户名
 	private String username;
+	//注册邮箱
 	private String email;
+	//创建时间
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date createTime;
+	//账号状态:0 冻结  1 正使用
 	private Integer status;
+	//用户个人信息
 	private UserInfo userInfo;
 
 	public User() {
@@ -36,15 +45,17 @@ public class User implements Serializable {
 	}
 
 	@Id
-	@Column(name = "ACCOUNT_CODE", nullable = false)
-	public final String getAccountCode() {
-		return accountCode;
+	@GenericGenerator(name="systemUUID",strategy="uuid")
+	@GeneratedValue(generator="systemUUID")
+	@Column(name = "ID", insertable = true, updatable = true, nullable = false)
+	public String getId() {
+		return id;
 	}
 
-	public final void setAccountCode(String accountCode) {
-		this.accountCode = accountCode;
+	public void setId(String id) {
+		this.id = id;
 	}
-	
+
 	@Column(name = "ACCOUNT", nullable = false ,length = 32)
 	public String getAccount() {
 		return account;
@@ -90,6 +101,15 @@ public class User implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	
+	@Column(name = "STATUS",nullable = false)
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "USERINFO_CODE", referencedColumnName = "USERINFO_CODE", unique = true)
@@ -101,78 +121,5 @@ public class User implements Serializable {
 		this.userInfo = userInfo;
 	}
 	
-	@Override
-	public String toString() {
-		return "User [accountCode=" + accountCode + ", account=" + account
-				+ ", password=" + password + ", username=" + username
-				+ ", email=" + email + ", createTime=" + createTime
-				+ ", userInfo=" + userInfo + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
-		result = prime * result
-				+ ((accountCode == null) ? 0 : accountCode.hashCode());
-		result = prime * result
-				+ ((createTime == null) ? 0 : createTime.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((userInfo == null) ? 0 : userInfo.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (account == null) {
-			if (other.account != null)
-				return false;
-		} else if (!account.equals(other.account))
-			return false;
-		if (accountCode == null) {
-			if (other.accountCode != null)
-				return false;
-		} else if (!accountCode.equals(other.accountCode))
-			return false;
-		if (createTime == null) {
-			if (other.createTime != null)
-				return false;
-		} else if (!createTime.equals(other.createTime))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (userInfo == null) {
-			if (other.userInfo != null)
-				return false;
-		} else if (!userInfo.equals(other.userInfo))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
 
 }

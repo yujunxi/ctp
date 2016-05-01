@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>个人资料</title>
+</head>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<style>
+.main {
+	height: 800px;
+	backgroun: #FFF;
+	border-radius: 4px;
+	border: 1px solid #E6E7E9;
+	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serifsans-serif;
+	margin-top: 10px;
+}
+</style>
+<body>
+	<div class="main">
+		<div class="" style="margin-top:20px;">
+			<table id="table" class="table" data-classes="table-no-bordered"
+				data-url="<@path/>/ctp/goods/getGoodsBySeller" >
+			</table>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript" src="/resources/js/sale.js"></script> 
+<script type="text/javascript">
+var account = "${account!''}";
+$(function () {
+	initTable();
+});
+
+function search(){
+	var goodsName = $("#goodsName").val();
+	window.location.href = '/ctp/goods/search?goodsName='+goodsName;
+}
+function showGoods(e){
+	var id = $(e).attr("id");
+	window.location.href = '/ctp/goods/getGoods?goodsCode='+id;
+}
+</script>
+</html>

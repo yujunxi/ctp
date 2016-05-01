@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>系统管理</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+</head>
+<body>
+<div class="panel panel-default">
+  <div id="panel" class="panel-heading">
+   	角色分配
+  </div>
+  <div class="panel-body">
+  	<div class="" style="margin-left:20px;margin-bottom:20px;">
+	  	<input type="button" class="btn btn-success" value="保存" onclick="save()"/>
+	  	&nbsp;&nbsp;
+	</div>
+    <div class="col-md-5">
+		<div id="tree"></div> 
+	</div>
+  </div>
+</div>
+<!-- Modal addNotice-->
+<div class="modal fade" id="msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div id="msg-content" class="modal-body" style="text-align: center;">
+        	
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript" src="/resources/lib/bootstrap-treeview.js"></script>
+<script type="text/javascript" src="/resources/lib/ajaxfileupload.js"></script> 
+<script type="text/javascript">
+var id = [];
+<#list ids as user>
+	id.push("${user}");
+</#list>
+var role = [];
+$(function () {
+	getFunction();
+});
+
+
+function getFunction() {
+	$.ajax({
+		url:"/ctp/system/getRole",
+		success:function(data){
+			var $checkableTree = $('#tree').treeview({
+			    data: data,
+			    showIcon: false,
+			    showCheckbox: true,
+			    showBorder: true,
+			    onNodeChecked: function(event, node) {
+			    	role.push(node.id);
+			    },
+			    onNodeUnchecked: function (event, node) {
+			    	role.remove(node.id);
+			    }
+			  });  
+		}		
+	})
+}
+
+Array.prototype.indexOf = function(val) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) return i;
+    }
+    return -1;
+};
+Array.prototype.remove = function(val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};
+/**
+ * 保存用户功能
+ */
+function save(){
+	$.ajax({
+		url:"/ctp/sysUser/setRole",
+		data:{
+			"ids":id,
+			"role":role
+		},success:function(data){
+			$("#msg-content").empty().html(data.msg);
+			$("#msg").modal('show');
+		},error:function(data){
+			
+		}
+	})
+}
+function close(){
+	
+}
+</script>
+</html>

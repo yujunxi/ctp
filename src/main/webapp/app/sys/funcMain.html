@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>角色管理</title>
+</head>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<body>
+<ol class="breadcrumb">
+		<li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			首页</li>
+		<li>系统设置</li>
+		<li>功能设置</li>
+	</ol>
+<div class="panel panel-default">
+	<div id="panel" class="panel-heading">
+   			功能设置
+   		</div>
+  <div class="panel-body">
+    <table class="table" id="table"
+			data-url="/ctp/system/getFuncList" >
+	</table>
+  </div>
+</div>
+<!-- Modal addNotice-->
+<div class="modal fade" id="msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div id="msg-content" class="modal-body" style="text-align: center;">
+        	
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">$(function () {
+	initTable();
+});
+
+function initTable(){
+	$('#table').bootstrapTable({
+		columns : [{
+			field: 'state',
+			checkbox: 'true'
+		},{
+			field : 'funcCode',
+			title : '功能编号'
+		}, {
+			field : 'funcName',
+			title : '功能名称'
+		}, {
+			field : 'parentCode',
+			title : '上级功能编号'
+		}, {
+			field : 'url',
+			title : '连接地址'
+		}, {
+			field : 'operate',
+			title : '操作',
+			align : 'center',
+			formatter : function(value, row, index) {
+				var d = "<a class = 'remove' href='javascript:void(0)'>删除</a>";
+				return  d;
+			},
+			events : 'operateEvents'
+		} ],
+		pagination: true,
+		pageSize: 10,
+		pageNumber: 1,
+		pageList: [10,25,50],
+		formatLoadingMessage: function () {
+		    return "请稍等，正在加载中...";
+		},
+		formatNoMatches: function () {  //没有匹配的结果
+		    return '无符合条件的记录';
+		},
+		formatShowingRows: function(pageFrom,pageTo,totalRows){
+			return "显示第"+ pageFrom +"到第"+pageTo+"条记录，总共"+totalRows+"条记录";
+		},
+		formatRecordsPerPage: function(pageNumber){
+			return "每页显示"+pageNumber+"条记录";
+		}
+	});
+}
+
+var operateEvents = {
+		'click .remove' : function(e, value, row, index) {
+			remove(row);
+		}
+	};
+
+	/**
+	 * 刷新
+	 */
+	function reload(){
+		$('#table').bootstrapTable('refresh');
+	}
+
+	/**
+	 * 删除
+	 * @param row
+	 */
+	function remove(row){
+		console.log(row)
+		$.ajax({
+			url:"/ctp/system/delFunc",
+			type:"POST",
+			data:{
+				"id":row.funcCode
+			},
+			success:function(data){
+				$("#msg-content").empty().html(data.msg);
+				$("#msg").modal('show');
+				reload();
+			},
+			error:function(data){
+				
+			}
+		})
+	}
+
+	$('#table').on('check.bs.table uncheck.bs.table ' +
+	        'check-all.bs.table uncheck-all.bs.table', function () {
+	    $('#remove').prop('disabled', !$('#table').bootstrapTable('getSelections').length);
+	    selections = getIdSelections();
+	    console.log(selections)
+	});
+
+	$('#remove').click(function () {
+	    var ids = getIdSelections();
+	    removeSelect(ids);
+	    $('#remove').prop('disabled', true);
+	});
+
+	function getIdSelections() {
+	    return $.map($('#table').bootstrapTable('getSelections')
+	    		, function (row) {
+	        return row.accountCode
+	    });
+	}
+
+	/**
+	 * 删除所选内容
+	 */
+	function removeSelect(ids){
+		$.ajax({
+			url:"/ctp/user/delSelectUser",
+			type:"POST",
+			data:{
+				"accountList":ids
+			},
+			success:function(data){
+				reload();
+			}
+		})
+	}
+
+</script>
+</html>

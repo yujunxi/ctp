@@ -4,49 +4,213 @@
 <meta charset="UTF-8">
 <title>发布商品</title>
 </head>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/lib/bootstrapValidator.css" rel="stylesheet">
 <style>
-.detail {
-	height: 400px;
-	background: #FFF;
-	border-radius: 4px;
-	border: 1px solid #E6E7E9;
-	font-size: 16px;
-	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serifsans-serif;
-	margin-top: 10px;
-}
 </style>
-<body>
-	<div class="detail">
-		<form class="form-horizontal" style="margin-top:50px;" id="form1">
+<body style="font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif">
+	<div class="mNavBar">
+		<div class="topBar">
+			<div class="container">
+				<div class="left">
+					<a href="/ctp" style="text-decoration: none;">
+						首页
+					</a>
+				</div>
+				<div class="right">
+					<span class="back">
+					<a href="#" style="text-decoration: none;" onclick="test1()">
+					发布闲置&nbsp;&nbsp;</a></span>
+					<#if account?exists>
+					<span class="back">
+					<a href="/ctp/user/space" style="text-decoration: none;">
+					消息盒子&nbsp;<span id="box" class="badge1" style="">0</span>&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/shopCar/main" style="text-decoration: none;">
+					购物车&nbsp;&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/order/main" style="text-decoration: none;">订单&nbsp;&nbsp;</a></span>
+					<a href="/ctp/user/space">
+				        	${account}&nbsp;&nbsp;
+					</a>
+					<a href="/ctp/account/logout" style="text-decoration: none;">退出</a>
+					<#else >
+				    <a href="ctp/account/login" style="text-decoration: none;">登录&nbsp;&nbsp;</a>
+				    <a href="ctp/account/register" style="text-decoration: none;">注册</a>    	
+				    </#if>
+				</div>
+			</div>
+		</div>
+		<div class="toolBar" style="text-align: center;">
+			<div class="container">
+				<div class="logo left"><img src="/resources/images/logo.png" width="300px;"></div>
+				<div class="search">
+					<form class="form-inline">
+					  <div class="form-group" style="margin-left:-300px;">
+					    <input type="text" id="goodsName" name="goodsName" class="form-control" placeholder="商品名"
+					    	style="width:300px;">
+					  </div>
+					  <button type="button" class="btn btn-default" style="margin-top:3px;" onclick="search()">搜索</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div><!-- navbar end-->
+	<div class="container" >
+		<div class="content"  style="border:1px solid #eee;font-size:15px;">
+		<form id="form1" class="form-horizontal" style="margin-top:40px;margin-left:80px;" id="form1">
 			<div class="form-group">
-				<label for="goodsName" class="col-sm-2 control-label" style="font-weight: normal;">姓名</label>
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">商品类型:</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" name="goodsName" id="goodsName"
-						placeholder="商品名" value="">
+				<select class="form-control" id="goodsType" name="goodsType">
+				  <option value="digital" selected>闲置数码</option>
+				  <option value="home">闲置家具 </option>
+				  <option value="book">闲置书籍</option>
+				  <option value="electronic">电子产品</option>
+				  <option value="live">生活用品</option>
+				  <option value="clothes">衣服饰品</option>
+				  <option value="other">其他</option>
+				</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-default" onclick="_save()">保存</button>
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">商品名:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="goodsName" id="goodsName1" placeholder="商品名">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">数量:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="num" id="num"
+						placeholder="数量" value="1">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">单价:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="price" id="price"
+						placeholder="价格" value="0">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">联系方式:</label>
+				<div class="col-sm-3">
+					<input type="tel" class="form-control" name="tel" id="tel"
+						placeholder="联系方式" value="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">地址:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="address" id="address"
+						placeholder="地址" value="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">介绍:</label>
+				<div class="col-sm-5">
+					<textarea class="form-control" rows="4" placeholder="简介" id="introduce"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="goodsName" class="col-sm-2 col-sm-offset-2 control-label" style="font-weight: normal;">图片:</label>
+				<div class="col-sm-3">
+					<input type="file" name="goodsImage" id="goodsImage"><br>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-10" >
+					<button type="submit" class="btn btn-success" style="width:240px;" onclick="_save()">发布</button>
 				</div>
 			</div>
 		</form>
+		</div>
 	</div>
+</div>
+<div class="footer-top"></div>
+	<div class="footer">
+		<div class="footer-wrp">
+			<div style="font-size:14px;">
+			<span>关于我们</span>&nbsp;|&nbsp;<span>联系我们</span>&nbsp;|&nbsp;<span>友情链接</span>
+			</div>
+			<div style="font-size:14px;">
+			https://github.com/yujunxi/ctp
+		</div>
+	</div>
+</div>
 </body>
+<script type="text/javascript" src="/resources/lib/jquery-2.0.3.min.js"></script> 
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
+<script type="text/javascript" src="/resources/lib/ajaxfileupload.js"></script> 
 <script type="text/javascript">
+$(function(){
+	$('#num').bind('input propertychange', function() {
+		  var num = $("#num").val();
+		  var type = /^[0-9]*[1-9][0-9]*$/;
+		  var result=  type.test(num);
+		  if(!result){
+		      $('#num').val(1); 
+		  }
+	});
+	$('#price').bind('input propertychange', function() {
+		  var num = $("#price").val();
+		  var type = /^[0-9]*[1-9][0-9]*$/;
+		  var result=  type.test(num);
+		  if(!result){
+		      $('#price').val(0); 
+		  }
+	});
+	
+})
 function _save(){
+	var goodsName = $("#goodsName1").val();
+	console.log(goodsName);
+	var num = $("#num").val();
+	var price = $("#price").val();
+	var introduce = $("#introduce").val();
+	var goodsType = $("#goodsType").val();
+	var address = $("#address").val();
+	var tel = $("#tel").val();
+    $.ajaxFileUpload({
+     url:'/ctp/goods/publish2',           
+     secureuri:false,
+     type:"POST",
+     fileElementId:'goodsImage',  
+     data: { 
+    	 'goodsName': goodsName,
+    	 'num':num,
+    	 'price': price,
+    	 'introduce':introduce,
+    	 'goodsType':goodsType,
+    	 'tel':tel,
+    	 'address':address
+   	 },
+     dataType: 'json',                                     
+     success: function (data, status)            
+     {      
+    	 alert("发布成功")
+     },
+     error: function (data, status, e)            
+     {
+    	 alert("发布成功")
+     }}); 
+     alert("发布成功")
+}
+function getBox(){
 	$.ajax({
-        url:"<@path/>/ctp/goods/publish",
-        type:"POST",
-        data:$("#form1").serialize(),
-        success:function(data){
-            var e = $.find(".active");
-    		showContent(
-    				e,"/ctp/goods/publishMain",null);
-        },
-        error:function(data){
-        }
-    })
+		url:"/ctp/box/list",
+		type:"GET",
+		success:function(data){
+			$("#box").empty().html(data.length);
+		},
+		error:function(data){
+			
+		}
+	})
 }
 </script>
 </html>

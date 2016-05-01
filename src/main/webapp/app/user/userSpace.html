@@ -11,34 +11,55 @@
 body{
 	background-color:#F4F5F7;
 }
-.
+#tool ul li a{
+	text-decoration: none;
+}
+
 </style>
 </head>
 <body>
 	<div class="mNavBar">
-		<div class="topBar">
+			<div class="topBar">
 			<div class="container">
 				<div class="left">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<a href="javascript:void(0);">
+					<a href="/ctp" style="text-decoration: none;">
 						首页
 					</a>
 				</div>
 				<div class="right">
-					<a>消息<span class="badge">0</span></a>
-					<a>订单</a>
-					<a href="/ctp/user/toUserDetail">${Session.account!""}</a>
-					<a href="/ctp/account/logout">退出</a>
+					<span class="back">
+					<a href="javascript:void(0)" style="text-decoration: none;" onclick="test1()">
+					发布闲置&nbsp;&nbsp;</a></span>
+					<#if account?exists>
+					<span class="back">
+					<a href="/ctp/user/space" style="text-decoration: none;">
+					消息盒子&nbsp;<span id="box" class="badge1" style="">0</span>&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/shopCar/main" style="text-decoration: none;">
+					购物车&nbsp;&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/order/main" style="text-decoration: none;">订单&nbsp;&nbsp;</a></span>
+					<a href="/ctp/user/space">
+				        	${account}&nbsp;&nbsp;
+					</a>
+					<a href="/ctp/account/logout" style="text-decoration: none;">退出</a>
+					<#else >
+				    <a href="ctp/account/login" style="text-decoration: none;">登录&nbsp;&nbsp;</a>
+				    <a href="ctp/account/register" style="text-decoration: none;">注册</a>    	
+				    </#if>
 				</div>
 			</div>
 		</div>
-	</div>
 	<div class="container">
 		<div class="user-panel">
 			<div class="left user-image">
 				<img alt="" src="/resources/images/goods.png" style="border-radius:50%;width:120px;">
 				<br/>
-				<input type="button" class="btn btn-default" value="修改头像">
+			</div>
+			<div class="left" style="margin-left:50px;margin-top:20px;">
+				<div>用户:${account!""}</div>
+				<div>出售中的闲置商品数量：${num!""}</div>
+				<div>登录时间:${time?string("yyyy-MM-dd HH:mm:ss")!""}</div>
 			</div>
 		</div>
 		<div class="tool" id="tool">
@@ -49,16 +70,15 @@ body{
 						个人资料
 					</a>
 				</li>
-				<li>
+				<!-- <li>
 					<a href="javascript:void(0);" onclick="showContent(this,'/ctp/goods/publishMain',null)">
 						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 						发布商品
 					</a>
-				</li>
-				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">收藏</a></li>
-				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">留言</a></li>
-				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">订单</a></li>
-				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/user/getUserDetail',null)">购买记录</a></li>
+				</li> -->
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/order/sale',null)">出售记录</a></li>
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/order/record',null)">交易记录</a></li>
+				<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/box/main',null)">消息盒子</a></li>
 			</ul>
 		</div>
 		
@@ -70,6 +90,7 @@ body{
 </body>
 <script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
 <script type="text/javascript">
+var account = "${account!''}";
 $(function() {
 	$("#user-content").load("/ctp/user/getUserDetail"
 			,null,function(response, status, xhr) {
@@ -84,6 +105,13 @@ function showContent(e,url,data){
 	$("#user-content").load(url,data,function(response, status, xhr) {
 		
 	});
+}
+function test1(){
+	if(account==""){
+		$("#myModal").modal('show');
+	}else{
+		window.location="/ctp/goods/publishMain";
+	}
 }
 </script>
 </html>

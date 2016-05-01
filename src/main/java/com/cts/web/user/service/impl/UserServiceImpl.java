@@ -1,5 +1,7 @@
 package com.cts.web.user.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -28,5 +30,10 @@ public class UserServiceImpl extends GenericServiceImpl<User,String> implements 
 
 	public Boolean validate(String account, String password) {
 		return dao.validate(account, password);
+	}
+
+	public List<User> findByAccount(String account) {
+		// TODO Auto-generated method stub
+		return dao.findByAccount(account);
 	}
 }

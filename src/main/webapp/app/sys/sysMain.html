@@ -3,12 +3,442 @@
 <head>
 <meta charset="UTF-8">
 <title>系统管理</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/fileinput.css" rel="stylesheet">
 <link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<style type="text/css">
+</style>
 </head>
-
 <body>
+<ol class="breadcrumb">
+		<li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			首页</li>
+		<li>系统管理</li>
+		<li>基础设置</li>
+</ol>
+   <div class="panel panel-default">
+   		<div id="panel" class="panel-heading">
+   			广告管理
+   		</div>
+		<div class="panel-body">	
+			<div id="toolbar" style="margin-bottom: -45px;">
+				<button id="add" class="btn btn-success" data-toggle="modal" data-target="#myModal">添加</button>
+			</div>
+			<table class="table" id="table"
+					data-url="/ctp/system/getCarousel" data-silent="true"
+					data-search="true">
+				</table>
+		</div>
+	</div>
+	 <div class="panel panel-default">
+   		<div id="panel" class="panel-heading">
+   			公告管理
+   		</div>
+		<div class="panel-body">
+				<div id="toolbar" style="margin-bottom: -45px;">
+				<button id="add" class="btn btn-success" data-toggle="modal" data-target="#myModal1">添加</button>
+			</div>
+			<table class="table" id="table1"
+					data-url="/ctp/notice/list" data-search="true">
+				</table>
+		</div>
+	</div>
+
+<!-- Modal addAD-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">发布广告</h4>
+      </div>
+      <div class="modal-body">
+        	<form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="title" class="col-sm-2 control-label">描述</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" id="title" placeholder="">
+			    </div>
+			  </div>
+		<div class="form-group" style="">
+			 <label for="url" class="col-sm-2 control-label">轮播图片</label>
+			 <div class="col-sm-8">
+			 <input id="imgFile" name="imgFile" type="file">
+			 </div>
+		</div>
+		<div class="form-group" style="">
+			<input type="button" value="发布" class="btn btn-success col-sm-offset-7"
+			 onclick="ajaxFileUpload()" style="width:135px;"/>
+		</div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editAD-->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">发布广告</h4>
+      </div>
+      <div class="modal-body">
+        	<form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="title" class="col-sm-2 control-label">标题</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" id="title" placeholder="标题">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="url" class="col-sm-2 control-label">连接地址</label>
+			    <div class="col-sm-5 ">
+			      <input type="text" class="form-control" id="url" placeholder="连接地址">
+			    </div>
+			  </div>
+		<div class="form-group" style="">
+			 <label for="url" class="col-sm-2 control-label">轮播图片</label>
+			 <div class="col-sm-8">
+			 <input id="imgFile" name="imgFile" type="file" class="file-loading"
+				data-show-upload="false" style="height:200px;">
+			 </div>
+		</div>
+		<div class="form-group" style="">
+			<input type="button" value="发布" class="btn btn-success col-sm-offset-7"
+			 onclick="ajaxFileUpload()" style="width:135px;"/>
+		</div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal addNotice-->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">发布公告</h4>
+      </div>
+      <div class="modal-body">
+        	<form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="title" class="col-sm-2 control-label">标题</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" id="title1" placeholder="标题">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="content" class="col-sm-2 control-label">内容</label>
+			    <div class="col-sm-8">
+			     <textarea name="content" id="content1" rows="10" cols="250" class="form-control"/>
+			    </div>
+			  </div>
+		<div class="form-group" style="">
+			<input type="button" value="发布" class="btn btn-success col-sm-offset-7"
+			 onclick="uploadNotice()" style="width:135px;"/>
+		</div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal editNotice-->
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改公告</h4>
+      </div>
+      <div class="modal-body">
+        	<form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="title" class="col-sm-2 control-label">标题</label>
+			    <div class="col-sm-5">
+			      <input type="hidden" class="form-control" id="id2">
+			      <input type="text" class="form-control" id="title2" placeholder="标题">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="content" class="col-sm-2 control-label">内容</label>
+			    <div class="col-sm-8">
+			     <textarea id="content3" rows="10" cols="250" class="form-control" value=""/>
+			    </div>
+			  </div>
+		<div class="form-group" style="">
+			<input type="button" value="修改" class="btn btn-success col-sm-offset-7"
+			 onclick="editNotice()" style="width:135px;"/>
+		</div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal addNotice-->
+<div class="modal fade" id="msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div id="msg-content" class="modal-body" style="text-align: center;">
+        	
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 <script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript" src="/resources/lib/ajaxfileupload.js"></script> 
+<script type="text/javascript" src="/resources/lib/fileinput.min.js"></script>
+<script type="text/javascript" src="/resources/lib/fileinput_locale_zh.js"></script>
 <script type="text/javascript">
+$(function () {
+	initTable();
+});
+function upload(){
+}
+function initTable(){
+	$('#table').bootstrapTable({
+		columns : [{
+			field : 'filePath',
+			title : '图片',
+			formatter : function(value, row, index) {
+				var img = "/carousel/"+row.filePath;
+				var html = "<img src="+img+" style='width:150px;'/>";
+				return html;
+			},
+		}, {
+			field : 'content',
+			title : '描述'
+		}, {
+			field : 'createTime',
+			title : '创建时间',
+			formatter : function(value,row,index){
+				var html = "<div style=''>"+new Date(row.createTime).toLocaleDateString()+"</div>";
+				return html;
+			}
+		}, {
+			field : 'operate',
+			title : '操作',
+			align : 'center',
+			formatter : function(value, row, index) {
+				var d = "<a class = 'remove' href='javascript:void(0)'>删除</a>";
+				return d;
+			},
+			events : 'operateEvents'
+		} ],
+		pagination: true,
+		showRefresh: true, 
+		formatLoadingMessage: function () {
+		    return "请稍等，正在加载中...";
+		},
+		formatNoMatches: function () {  //没有匹配的结果
+		    return '无符合条件的记录';
+		},
+		formatShowingRows: function(pageFrom,pageTo,totalRows){
+			return "显示第"+ pageFrom +"到第"+pageTo+"条记录，总共"+totalRows+"条记录";
+		},
+		formatRecordsPerPage: function(pageNumber){
+			return "每页显示"+pageNumber+"条记录";
+		}
+	});
+	$('#table1').bootstrapTable({
+		columns : [{
+			field : 'id',
+			title : '编号'
+		}, {
+			field : 'title',
+			title : '标题'
+		}, {
+			field : 'author',
+			title : '发布人'
+		} ,{
+			field : 'createTime',
+			title : '创建时间',
+			formatter : function(value,row,index){
+				var html = "<div style=''>"+new Date(row.createTime).toLocaleDateString()+"</div>";
+				return html;
+			}
+		}, {
+			field : 'operate',
+			title : '操作',
+			align : 'center',
+			formatter : function(value, row, index) {
+				var s = "<a class = 'edit1' href='javascript:void(0)'>修改</a>";
+				var d = "<a class = 'remove1' href='javascript:void(0)'>删除</a>";
+				return s + ' ' + d;
+			},
+			events : 'operateEvents1'
+		} ],
+		pagination: true,
+		showRefresh: true, 
+		formatLoadingMessage: function () {
+		    return "请稍等，正在加载中...";
+		},
+		formatNoMatches: function () {  //没有匹配的结果
+		    return '无符合条件的记录';
+		},
+		formatShowingRows: function(pageFrom,pageTo,totalRows){
+			return "显示第"+ pageFrom +"到第"+pageTo+"条记录，总共"+totalRows+"条记录";
+		},
+		formatRecordsPerPage: function(pageNumber){
+			return "每页显示"+pageNumber+"条记录";
+		}
+	});
+}
+$("#input-fr").fileinput({
+    language: "fr",
+    uploadUrl: "/file-upload-batch/2",
+    allowedFileExtensions: ["jpg", "png", "gif"]
+});
+
+
+var operateEvents = {
+	'click .edit' : function(e, value, row, index) {
+	},
+	'click .remove' : function(e, value, row, index) {
+		remove(row);
+	}
+};
+var operateEvents1 = {
+	'click .edit1' : function(e, value, row, index) {
+		$("#id2").val(row.id);
+		$("#title2").val(row.title);
+		$("#content3").html(row.content);
+		$("#myModal4").modal('show');
+	},
+	'click .remove1' : function(e, value, row, index) {
+			remove1(row);
+	}
+};
+/**
+ * 刷新
+ */
+function reload(){
+	$('#table').bootstrapTable('refresh');
+	$('#table1').bootstrapTable('refresh');
+}
+
+/**
+ * 修改公告
+ * @param row
+ */
+function editNotice() {
+	$.ajax({
+		url:"/ctp/notice/edit",
+		type:"POST",
+		data:{
+			"id":$("#id2").val(),
+			"title":$("#title2").val(),
+			"content":$("#content3").val()
+		},
+		success:function(data){
+			$("#id2").val("");
+			$("#title2").val("");
+			$("#conten3").val("");
+			$("#myModal4").modal('hide');
+			$("#msg-content").empty().html(data.msg);
+			$("#msg").modal('show');
+			reload();
+		}
+	})
+}
+
+/**
+ * 删除
+ * @param row
+ */
+function remove(row){
+	$.ajax({
+		url:"/ctp/system/del",
+		type:"POST",
+		data:{
+			"id":row.uuid
+		},
+		success:function(data){
+			$('#msg-content').empty().html(data.msg);
+	    	$('#msg').modal('show');
+			reload();
+		},
+		error:function(data){
+			
+		}
+	})
+}
+function uploadNotice(){
+	var title = $("#title1").val();
+	var content = $("#content1").val();
+	$.ajax({
+		url:"/ctp/notice/add",
+		type:"POST",
+		data:{
+			"title":title,
+			"content":content
+		},
+		success:function(data){
+	    	 $('#myModal1').modal('hide');
+	    	 $('#msg-content').empty().html(data.msg);
+		     $('#msg').modal('show');
+	    	 $("#title1").val("");
+	    	 $("#content1").val("");
+			 reload();
+		},
+		error:function(data){
+			
+		}
+	})
+}
+function ajaxFileUpload(){
+    $.ajaxFileUpload({
+     url:'/ctp/system/upload',           
+     secureuri:false,
+     type:"POST",
+     fileElementId:'imgFile',  
+     data:{
+    	 "url":$("#url").val(),
+    	 "title":$("#title").val()
+     },
+     dataType: 'json',                                     
+     success: function (data, status)            
+     {      
+    	 $('#myModal').modal('hide');
+    	 $('#msg-content').empty().html(data.msg);
+	     $('#msg').modal('show');
+	     $("#title").val("");
+	     $("#imgFile").val("");
+    	 reload();
+     },
+     error: function (data, status, e)            
+     {
+    	 
+     }
+   });
+}
+/**
+ * 删除
+ * @param row
+ */
+function remove1(row){
+	$.ajax({
+		url:"/ctp/notice/del",
+		type:"POST",
+		data:{
+			"id":row.id
+		},
+		success:function(data){
+			$("#msg-content").empty().html(data.msg);
+			$("#msg").modal('show');
+			reload();
+		},
+		error:function(data){
+			
+		}
+	})
+}
 </script>
 </html>

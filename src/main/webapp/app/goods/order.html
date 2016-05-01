@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>校园二手交易平台</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+</head>
+<body>
+	<div class="mNavBar">
+		<div class="topBar">
+			<div class="container">
+				<div class="left">
+					<a href="/ctp" style="text-decoration: none;">
+						首页
+					</a>
+				</div>
+				<div class="right">
+					<span class="back">
+					<a href="#" style="text-decoration: none;" onclick="test1()">
+					发布闲置&nbsp;&nbsp;</a></span>
+					<#if account?exists>
+					<span class="back">
+					<a href="/ctp/user/space" style="text-decoration: none;">
+					消息盒子&nbsp;<span id="box" class="badge1" style="">0</span>&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/shopCar/main" style="text-decoration: none;">
+					购物车&nbsp;&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/order/main" style="text-decoration: none;">订单&nbsp;&nbsp;</a></span>
+					<a href="/ctp/user/space">
+				        	${account}&nbsp;&nbsp;
+					</a>
+					<a href="/ctp/account/logout" style="text-decoration: none;">退出</a>
+					<#else >
+				    <a href="ctp/account/login" style="text-decoration: none;">登录&nbsp;&nbsp;</a>
+				    <a href="ctp/account/register" style="text-decoration: none;">注册</a>    	
+				    </#if>
+				</div>
+			</div>
+		</div>
+		<div class="toolBar" style="text-align: center;">
+			<div class="container">
+				<div class="logo left"><img src="/resources/images/logo.png" width="300px;"></div>
+				<div class="search">
+					<form class="form-inline">
+					  <div class="form-group" style="margin-left:-300px;">
+					    <input type="text" id="goodsName" name="goodsName" class="form-control" placeholder="商品名"
+					    	style="width:300px;">
+					  </div>
+					  <button type="button" class="btn btn-default" style="margin-top:3px;" onclick="search()">搜索</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div><!-- navbar end-->
+
+	<div class="container" style="margin-top:15px;">
+		<div class="" style="margin-top:80px;">
+			<table id="table" class="table" data-classes="table-no-bordered"
+				data-url="<@path/>/ctp/order/list" >
+			</table>
+		</div>
+	</div>
+	
+	<div class="footer-top"></div>
+	<div class="footer">
+		<div class="footer-wrp">
+			<div style="font-size:14px;">
+			<span>关于我们</span>&nbsp;|&nbsp;<span>联系我们</span>&nbsp;|&nbsp;<span>友情链接</span>
+			</div>
+			<div style="font-size:14px;">
+			https://github.com/yujunxi/ctp
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript" src="/resources/js/order.js"></script> 
+<script type="text/javascript">
+var account = "${account!''}";
+$(function () {
+	initTable();
+});
+
+function search(){
+	var goodsName = $("#goodsName").val();
+	window.location.href = '/ctp/goods/search?goodsName='+goodsName;
+}
+function showGoods(e){
+	var id = $(e).attr("id");
+	window.location.href = '/ctp/goods/getGoods?goodsCode='+id;
+}
+function test1(){
+	if(account==""){
+		$("#myModal").modal('show');
+	}else{
+		window.location="/ctp/goods/publishMain";
+	}
+}
+</script>
+</html>

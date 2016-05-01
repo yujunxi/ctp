@@ -1,6 +1,9 @@
+.body{
+	font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+}
 .sidebar {
     position: fixed;
-    top: 52px;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -8,20 +11,25 @@
     overflow-x: hidden;
     overflow-y: auto;
     background-color: #FFF;
-    border-right: 1px solid #eee;
-    box-shadow: 5px 0px 8px #888;
+    border-right: 1px solid #D3D3D3;
 }
 .nav-sidebar {
   margin-top: 20px;
   margin-bottom: 20px;
+  font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+}
+.nav-sidebar > li > a {
+	border-bottom:1px solid #eee;
 }
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
+  font-size:14px;
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
+  font-size:14px;
   color: #fff;
-  background-color: #428bca;
+  background-color: #289de7;
 }

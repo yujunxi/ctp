@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>订单管理</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+</head>
+<body>
+	<div id="content" style="margin-top:10px;">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table" id="table"
+					data-url="/ctp/box/list2">
+				</table>
+				<!-- table -->
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script>
+<script type="text/javascript">
+$(function () {
+	initTable();
+});
+
+function initTable(){
+	$('#table').bootstrapTable({
+		columns : [{
+			title : '编号',
+			align : 'center',
+			formatter : function(value,row,index){
+				var html = row.id;
+				return html;
+			}
+		},{
+			title : '内容',
+			align : 'center',
+			formatter : function(value,row,index){
+				var html = row.content;
+				return html;
+			}
+		},{
+			title : '通知人',
+			align : 'center',
+			formatter : function(value,row,index){
+				var html = row.sender;
+				return html;
+			}
+		},{
+			title : '时间',
+			align : 'center',
+			formatter : function(value,row,index){
+				var html = new Date(row.createTime).toLocaleDateString();
+				return html;
+			}
+		}],
+		pagination: true,
+		pageSize: 5,
+		pageNumber: 1,
+		pageList: [10,25,50],
+		formatLoadingMessage: function () {
+		    return "请稍等，正在加载中...";
+		},
+		formatNoMatches: function () {  //没有匹配的结果
+		    return '无销售中的商品';
+		},
+		formatShowingRows: function(pageFrom,pageTo,totalRows){
+			return "显示第"+ pageFrom +"到第"+pageTo+"条记录，总共"+totalRows+"条记录";
+		},
+		formatRecordsPerPage: function(pageNumber){
+			return "每页显示"+pageNumber+"条记录";
+		}
+	});
+}
+</script>
+</html>

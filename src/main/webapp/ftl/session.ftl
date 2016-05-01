@@ -1,9 +1,11 @@
-<#macro greet person>  
-     Hello ${person}!
-</#macro>  
-
-<#macro admin username>
-	<#compress>
-		${username}
-	</#compress>
+<#macro ass a>
+	<#if a??>
+		<#compress>
+			${a}
+		</#compress>
+	<#else>
+		<#compress>
+			123
+		</#compress>
+	</#if>
 </#macro>

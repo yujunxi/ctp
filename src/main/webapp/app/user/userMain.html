@@ -17,19 +17,136 @@
 	</ol>
 
 	<div id="content">
-		<div id="toolbar" style="margin-bottom:-45px;">
-			<button id="remove" class="btn btn-danger" disabled>
-				<i class="glyphicon glyphicon-remove"></i> Delete
-			</button>
-		</div>
 		<!-- options -->
-
-		<table class="table" id="table"
-			data-url="<@path/>/ctp/user/getUserList" data-silent="true"
-			data-search="true">
-		</table>
+		<div class="panel panel-default">
+		<div id="panel" class="panel-heading">
+			会员管理
+		</div>
+			<div class="panel-body">
+				<div id="toolbar" style="margin-bottom: -45px;">
+					<button id="remove" class="btn btn-danger" disabled>删除</button>
+					<button id="add" class="btn btn-success" data-toggle="modal"
+						data-target="#myModal">添加会员</button>
+				</div>
+				<table class="table" id="table"
+					data-url="<@path/>/ctp/user/getUserList" data-silent="true"
+					data-search="true">
+				</table>
+			</div>
+		</div>
 		<!-- table -->
 	</div>
+
+	<!-- Modal addUser-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加会员</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">登录账号:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="account" name="account"
+									placeholder="登录账号">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-sm-2 control-label">密码:</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="password"
+									placeholder="密码">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">邮箱:</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="email"
+									placeholder="邮箱">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="button" class="btn btn-default" onclick="add()">保存</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal editUser-->
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">修改信息</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form1">
+
+				<input type="hidden" id="userid" name="id" value="">
+
+				<div class="form-group">
+					<label for="account" class="col-sm-2 control-label">会员账号：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="accountname"
+							placeholder="会员账号" value="" disabled>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="account" class="col-sm-2 control-label">注册邮箱：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="email1" name="mail"
+							placeholder="邮箱" value="" >
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="account" class="col-sm-2 control-label">
+						<input type="button" class="btn btn-default btn-sm" value="重置密码"
+							style="margin-top:-5px;" onclick='resetpassword()'/>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="pwd"
+							placeholder="密码" value="" name="password">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="button" class="btn btn-primary" onclick="save()">保存</button>
+					</div>
+				</div>
+			</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Modal addNotice-->
+<div class="modal fade" id="msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div id="msg-content" class="modal-body" style="text-align: center;">
+        	
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 <script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script>
 <script type="text/javascript" src="/resources/js/user.js"></script>

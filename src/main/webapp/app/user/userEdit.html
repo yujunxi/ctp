@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>用户修改</title>
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
 </head>
 <body>
 	<ol class="breadcrumb">
@@ -20,23 +22,35 @@
 		</div>
 		<div class="panel-body">
 			<form class="form-horizontal" id="form1"
-				action="<@path/>/ctp/user/editUser" method="POST">
+				action="/ctp/user/editUser" method="POST">
 
-				<input type="hidden" name="account_code" value="${user.accountCode}">
-				<input type="hidden" name="account" value="${user.account}">
+				<input type="hidden" name="id" value="${user.id!''}">
+				<input type="hidden" name="account" value="${user.account!''}">
 
 				<div class="form-group">
-					<label for="account" class="col-sm-2 control-label">会员账号</label>
+					<label for="account" class="col-sm-2 control-label">会员账号：</label>
 					<div class="col-sm-5">
 						<input type="text" class="form-control" id="account"
-							placeholder="会员账号" value="${user.account}" disabled>
+							placeholder="会员账号" value="${user.account!''}" disabled>
 					</div>
 				</div>
+				
 				<div class="form-group">
-					<label for="password" class="col-sm-2 control-label">密码</label>
+					<label for="account" class="col-sm-2 control-label">注册邮箱：</label>
 					<div class="col-sm-5">
-						<input type="text" class="form-control" id="password"
-							name="password" placeholder="密码" value="${user.password}">
+						<input type="text" class="form-control" id="email" name="mail"
+							placeholder="邮箱" value="${user.email!''}" >
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="account" class="col-sm-2 control-label">
+						<input type="button" class="btn btn-default btn-sm" value="重置密码"
+							style="margin-top:-5px;" onclick='resetpassword()'/>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="pwd"
+							placeholder="密码" value="" name="password">
 					</div>
 				</div>
 
@@ -71,6 +85,18 @@ function _save(){
 function _return(){
 	 var e = $.find(".active");
 	 showContent(e,"/ctp/user/userMain",null);
+}
+
+function resetpassword(){
+	$.ajax({
+        url:"<@path/>/ctp/user/resetPwd",
+        type:"get",
+        success:function(data){
+        	$("#pwd").val(data.pwd)
+        },
+        error:function(data){
+        }
+    })
 }
 
 </script>

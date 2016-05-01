@@ -55,8 +55,9 @@ public class AccountController {
 		Boolean flag = userService.validate(account, md5.getMD5ofStr(password));
 		if(flag){
 			session.setAttribute("account", account);
-			mav.setViewName("redirect:/ctp/home");
+			mav.setViewName("redirect:/ctp");
 		}else{
+			mav.addObject("msg", "账号或密码不准确");
 			mav.setViewName("/user/login");
 		}
 		return mav;
@@ -72,8 +73,8 @@ public class AccountController {
 	public ModelAndView logout(HttpSession session){
 		ModelAndView mav = new ModelAndView();
 		session.removeAttribute("account");
-		mav.setViewName("redirect:/ctp/login");
-		return null;
+		mav.setViewName("redirect:/ctp");
+		return mav;
 	}
 	
 	/**
@@ -107,10 +108,10 @@ public class AccountController {
 			
 			String password = md5.getMD5ofStr(user.getPassword());
 			
-			user.setAccountCode(account);
+			user.setAccount(account);
 			user.setPassword(password);
 			user.setCreateTime(new Date());
-					
+			user.setStatus(0);
 			UserInfo userInfo = new UserInfo();
 			user.setUserInfo(userInfo);
 					
@@ -119,7 +120,7 @@ public class AccountController {
 			session.setAttribute("account", account);
 			mav.setViewName("redirect:/ctp");
 		}else{
-			mav.addObject("msgs", "登录失败");
+			mav.addObject("msg", "该账号已存在");
 			mav.setViewName("/user/register");
 		}
 		return mav;

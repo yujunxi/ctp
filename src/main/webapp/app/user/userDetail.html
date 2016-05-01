@@ -19,56 +19,72 @@
 	<div class="detail">
 		<form class="form-horizontal" style="margin-top:50px;" id="form1">
 			<input type="hidden" class="form-control" name="userInfoCode" id="userInfoCode"
-						value='${userInfo.userInfoCode!""}'>
-			<input type="hidden" class="form-control" name="username" id="username"
-						value='${userInfo.username!""}'>			
+						value='${userInfo.userInfoCode!""}'>		
 			<div class="form-group">
-				<label for="realName" class="col-sm-2 control-label" style="font-weight: normal;">姓名</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" name="realName" id="realName"
-						placeholder="姓名" value='${userInfo.realname!""}'>
+				<div class="input-group col-md-5 col-md-offset-3">
+				  <span class="input-group-addon" id="basic-addon1">姓名:</span>
+				  <input type="text" name="realname" class="form-control" placeholder="姓名" value='${userInfo.realname!""}'>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for=address class="col-sm-2 control-label" style="font-weight: normal;">地址</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" name="address" id="address"
-						placeholder="地址" value='${userInfo.address!""}'>
+				<div class="input-group col-md-5 col-md-offset-3">
+				  <span class="input-group-addon" id="basic-addon1">用户名:</span>
+				  <input type="text" name="username" class="form-control" placeholder="用户名" value='${userInfo.username!""}'>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for=email class="col-sm-2 control-label" style="font-weight: normal;">邮箱</label>
-				<div class="col-sm-3">
-					<input type="email" class="form-control" id="email"
-						placeholder="邮箱" value='${userInfo.email!""}'>
+				<div class="input-group col-md-5 col-md-offset-3">
+				  <span class="input-group-addon" id="basic-addon1">邮箱:</span>
+				  <input type="email" name="email" class="form-control" placeholder="邮箱" value='${userInfo.email!""}'>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for=tel class="col-sm-2 control-label" style="font-weight: normal;">地址</label>
-				<div class="col-sm-3">
-					<input type="tel" class="form-control" id="tel"
-						placeholder="电话" value='${userInfo.address!""}'>
+				<div class="input-group col-md-5 col-md-offset-3">
+				  <span class="input-group-addon" id="basic-addon1">联系电话:</span>
+				  <input type="tel" name="tel" class="form-control" placeholder="联系电话" value='${userInfo.tel!""}'>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-default" onclick="_save()">保存</button>
+				<div class="input-group col-md-5 col-md-offset-3">
+				  <span class="input-group-addon" id="basic-addon1">地址:</span>
+				  <input type="text" name="address" class="form-control" placeholder="地址" value='${userInfo.address!""}'>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-5 col-md-offset-7">
+					<button type="button" class="btn btn-default" style="width:80px;" onclick="_save()">保存</button>
 				</div>
 			</div>
 		</form>
 	</div>
+	
+<div class="modal fade bs-example-modal-sm" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog  modal-sm" role="document">
+    <div class="modal-content">
+     <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div id="msg-content" class="modal-body" style="text-align: center;">
+        	
+      </div>
+    </div>
+  </div>
+</div>
 </body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
 <script type="text/javascript">
 function _save(){
-	console.log(1)
 	$.ajax({
-        url:"<@path/>/ctp/user/editUserDetail",
+        url:"/ctp/user/editUserDetail",
         type:"POST",
         data:$("#form1").serialize(),
         success:function(data){
             var e = $.find(".active");
     		showContent(
     				e,"/ctp/user/getUserDetail",null);
+    		$("#msg-content").html(data.msg);
+    		$("#modal").modal('show');
         },
         error:function(data){
         }

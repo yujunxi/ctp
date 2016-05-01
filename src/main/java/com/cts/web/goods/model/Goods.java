@@ -25,9 +25,15 @@ public class Goods implements Serializable{
 	private double price;
 	private String imgName;
 	private String seller;
+	private String goodsType;
+	private String address;
+	private String tel;
+	private String changenType;
 	private int status;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date createTime;
+	private int audit;
+	private int readNum;
 	
 	public Goods() {
 		// TODO Auto-generated constructor stub
@@ -43,7 +49,7 @@ public class Goods implements Serializable{
 		this.goodsCode = goodsCode;
 	}
 	
-	@Column(name = "GOODS_NAME", nullable = true)
+	@Column(name = "GOODS_NAME", nullable = false)
 	public String getGoodsName() {
 		return goodsName;
 	}
@@ -60,7 +66,7 @@ public class Goods implements Serializable{
 		this.introduce = introduce;
 	}
 	
-	@Column(name = "NUM", nullable = true)
+	@Column(name = "NUM", nullable = false)
 	public int getNum() {
 		return num;
 	}
@@ -69,7 +75,7 @@ public class Goods implements Serializable{
 		this.num = num;
 	}
 	
-	@Column(name = "PRICE", nullable = true)
+	@Column(name = "PRICE", nullable = false)
 	public double getPrice() {
 		return price;
 	}
@@ -104,6 +110,15 @@ public class Goods implements Serializable{
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	@Column(name = "GOODS_TYPE", nullable = true)
+	public String getGoodsType() {
+		return goodsType;
+	}
+
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType;
+	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATE_TIME", length = 19)
@@ -114,7 +129,51 @@ public class Goods implements Serializable{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
 	
+	@Column(name = "ADDRESS", nullable = true)
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	@Column(name = "TEL", nullable = true)
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	@Column(name = "AUDIT", nullable = false)
+	public int getAudit() {
+		return audit;
+	}
+
+	public void setAudit(int audit) {
+		this.audit = audit;
+	}
+	
+	@Column(name = "CHANGETYPE", nullable = false)
+	public String getChangenType() {
+		return changenType;
+	}
+
+	public void setChangenType(String changenType) {
+		this.changenType = changenType;
+	}
+	
+	@Column(name = "READNUM", nullable = true)
+	public int getReadNum() {
+		return readNum;
+	}
+
+	public void setReadNum(int readNum) {
+		this.readNum = readNum;
+	}
+
 	
 }

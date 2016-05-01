@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>校园二手交易平台</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/lib/font-awesome.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<style type="text/css">
+.type,.price,.time{ 
+	margin-top:20px;
+	font-size:14px;
+	font-family:"Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
+}
+.type ul li,.price ul li,.time ul li{
+	list-style-type: none;
+	float:left;
+	margin-left:30px;
+}
+.type ul li a,.price ul li a,.time ul li a{
+	text-decoration: none;
+}
+.type li.active a,
+.price li.active a,
+.time li.active a{
+	color:#289ee7;
+}
+.good{
+	margin-right:23px;
+	border:1px solid #EEE;
+	width:170px;
+	padding:10px;
+	margin-bottom:20px;
+	text-align:center;
+}
+</style>
+</head>
+<body>
+		<div class="mNavBar">
+		<div class="topBar">
+			<div class="container">
+				<div class="left">
+					<a href="/ctp" style="text-decoration: none;">
+						首页
+					</a>
+				</div>
+				<div class="right">
+					<span class="back">
+					<a href="#" style="text-decoration: none;" onclick="test1()">
+					发布闲置&nbsp;&nbsp;</a></span>
+					<#if account?exists>
+					<span class="back">
+					<a href="/ctp/user/space" style="text-decoration: none;">
+					消息盒子&nbsp;<span id="box" class="badge1" style="">0</span>&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/shopCar/main" style="text-decoration: none;">
+					购物车&nbsp;&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/order/main" style="text-decoration: none;">订单&nbsp;&nbsp;</a></span>
+					<a href="/ctp/user/space">
+				        	${account}&nbsp;&nbsp;
+					</a>
+					<a href="/ctp/account/logout" style="text-decoration: none;">退出</a>
+					<#else >
+				    <a href="/ctp/account/login" style="text-decoration: none;">登录&nbsp;&nbsp;</a>
+				    <a href="/ctp/account/register" style="text-decoration: none;">注册</a>    	
+				    </#if>
+				</div>
+			</div>
+		</div>
+		<div class="toolBar" style="text-align: center;">
+			<div class="container">
+				<div class="logo left"><img src="/resources/images/logo.png" width="300px;"></div>
+				<div class="search">
+					<form class="form-inline">
+					  <div class="form-group" style="margin-left:-300px;">
+					    <input type="text" id="goodsName" name="goodsName" class="form-control" placeholder="商品名"
+					    	style="width:300px;">
+					  </div>
+					  <button type="button" class="btn btn-default" style="margin-top:3px;" onclick="search()">搜索</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div><!-- navbar end-->
+	<div class="container" style="margin-top:50px;">
+		<div class="list left" style="margin-top:10px;border:1px solid #EEE;width:1200px;height:130px;">
+			<div>
+				<div class="type">
+					<ul>
+						<li>类型:</li>
+						<li <#if type=="">class="active"</#if> ><a href="javascript:void(0);" id="" onclick="findByType(this)">全部</a></li>
+						<li <#if type=="digital">class="active"</#if> ><a href="javascript:void(0);" id="digital" onclick="findByType(this)">闲置数码</a></li>
+						<li <#if type=="home">class="active"</#if> ><a href="javascript:void(0);" id="home" onclick="findByType(this)">闲置家具</a></li>
+						<li <#if type=="book">class="active"</#if> ><a href="javascript:void(0);" id="book" onclick="findByType(this)">闲置书籍</a></li>
+						<li <#if type=="electronic">class="active"</#if> ><a href="javascript:void(0);" id="electronic" onclick="findByType(this)">电子产品</a></li>
+						<li <#if type=="live">class="active"</#if> ><a href="javascript:void(0);" id="live" onclick="findByType(this)">生活用品</a></li>
+						<li <#if type=="clothes">class="active"</#if> ><a href="javascript:void(0);" id="clothes" onclick="findByType(this)">衣服饰品</a></li>
+						<li <#if type=="other">class="active"</#if> ><a href="javascript:void(0);" id="other" onclick="findByType(this)">其他</a></li>
+					</ul>
+				</div><br>
+				<div class="price">
+					<ul>
+						<li>价格:</li>
+						<li <#if price=="">class="active"</#if> ><a href="javascript:void(0);" id="" onclick="findByPrice(this)">全部</a></li>
+						<li <#if price=="dprice">class="active"</#if> ><a href="javascript:void(0);" id="dprice" onclick="findByPrice(this)">0-100</a></li>
+						<li <#if price=="zprice">class="active"</#if> ><a href="javascript:void(0);" id="zprice" onclick="findByPrice(this)">100-1000</a></li>
+						<li <#if price=="gprice">class="active"</#if> ><a href="javascript:void(0);" id="gprice" onclick="findByPrice(this)">1000以上</a></li>
+					</ul>
+				</div><br>
+				<div class="time">
+					<ul>
+						<li>时间:</li>
+						<li <#if time=="">class="active"</#if> ><a href="javascript:void(0);" id="" onclick="findByTime(this)">全部</a></li>
+						<!-- <li <#if time=="today">class="active"</#if> ><a href="javascript:void(0);" id="today" onclick="findByTime(this)">今天</a></li> -->
+						<li <#if time=="three">class="active"</#if> ><a href="javascript:void(0);" id="three" onclick="findByTime(this)">三天内</a></li>
+						<li <#if time=="week">class="active"</#if> ><a href="javascript:void(0);" id="week" onclick="findByTime(this)">一周内</a></li>
+						<li <#if time=="month">class="active"</#if> ><a href="javascript:void(0);" id="month" onclick="findByTime(this)">一个月内</a></li>
+						<li <#if time=="year">class="active"</#if> ><a href="javascript:void(0);" id="year" onclick="findByTime(this)">一年内</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="goodsList" class="list left" style="margin-top:10px;border:1px solid #EEE;width:1200px;
+			padding:20px 10px 10px 100px;">
+			<div class="loading" style="width:300px;"><div class="icon-spinner icon-spin icon-4x"></div></div>
+			
+		</div>
+		
+	</div>
+	
+	<div class="footer-top"></div>
+	<div class="footer">
+		<div class="footer-wrp">
+			<div style="font-size:14px;">
+			<span>关于我们</span>&nbsp;|&nbsp;<span>联系我们</span>&nbsp;|&nbsp;<span>友情链接</span>
+			</div>
+			<div style="font-size:14px;">
+			https://github.com/yujunxi/ctp
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript">
+var nams = "${name!""}";
+$(function(){
+	$(".loading").hide();
+	loadGoods();
+	getBox()
+});
+function search(){
+	var goodsName = $("#goodsName").val();
+	var price=$(".price li.active").find("a").attr("id");
+	var time=$(".time li.active").find("a").attr("id");
+	var type=$(".type li.active").find("a").attr("id");
+	window.location="/ctp/goods/search?goodsType="+type+"&price="+price+"&time="+time+"&goodsName="+goodsName;
+}
+function showGoods(e){
+	var id = $(e).attr("id");
+	window.location.href = '/ctp/goods/getGoods?goodsCode='+id;
+}
+
+function findByType(e){
+	var type=$(e).attr("id");
+	var goodsName = $("#goodsName").val();
+	var time=$(".time li.active").find("a").attr("id");
+	var price=$(".price li.active").find("a").attr("id");
+	$(".type li.active").removeClass("active");
+	$(e).closest("li").addClass("active");
+	window.location="/ctp/goods/search?goodsType="+type+"&price="+price+"&time="+time+"&goodsName="+goodsName;
+}
+function findByTime(e){
+	var time=$(e).attr("id");
+	var type=$(".type li.active").find("a").attr("id");
+	var price=$(".price li.active").find("a").attr("id");
+	var goodsName = $("#goodsName").val();
+	$(".time li.active").removeClass("active");
+	$(e).closest("li").addClass("active");
+	window.location="/ctp/goods/search?goodsType="+type+"&price="+price+"&time="+time+"&goodsName="+goodsName;
+}
+function findByPrice(e){
+	var price=$(e).attr("id");
+	var type=$(".type li.active").find("a").attr("id");
+	var time=$(".time li.active").find("a").attr("id");
+	var goodsName = $("#goodsName").val();
+	$(".price li.active").removeClass("active");
+	$(e).closest("li").addClass("active");
+	window.location="/ctp/goods/search?goodsType="+type+"&price="+price+"&time="+time+"&goodsName="+goodsName;
+}
+function loadGoods(){
+	$.ajax({
+		url:"/ctp/goods/searchGoods",
+		type:"POST",
+		data:{
+			"goodsType":"${type!''}",
+			"price":"${price!''}",
+			"time":"${time!''}",
+		 	"goodsName":"${name!''}"
+		},
+		success:function(data){
+			console.log(data)
+			if(data.length>0){
+				for(var i=0;i<data.length;i++){
+					var img = "/goods/"+data[i].imgName;
+					var html = $('<div id="list" class="left good" style="margin-left:10px;">'
+							+'<a href="javascript:void(0);" id="'+data[i].goodsCode+'" onclick="showGoods(this)">'+
+							'<img src='+img+ ' style="width:150px" />'+
+							'<div class="m-t" id="hot_good">'+data[i].goodsName+'</div>'+
+							'<div class="m-t" id="price">'+data[i].price+'</div></a></div>').appendTo("#goodsList");
+				}
+			}else{
+				var html = $('<div>没有查询相关商品</div>').appendTo("#goodsList");
+			}
+		},
+		error:function(data){
+			
+		}
+	})
+}
+function getBox(){
+	$.ajax({
+		url:"/ctp/box/list",
+		type:"GET",
+		success:function(data){
+			$("#box").empty().html(data.length);
+		},
+		error:function(data){
+			
+		}
+	})
+}
+</script>
+</html>

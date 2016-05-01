@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>角色管理</title>
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+</head>
+<body>
+<ol class="breadcrumb">
+		<li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			首页</li>
+		<li>系统设置</li>
+		<li>角色设置</li>
+</ol>
+<div class="panel panel-default">
+<div id="panel" class="panel-heading">
+   			角色设置
+   		</div>
+  <div class="panel-body">
+  	<div id="toolbar" style="margin-bottom:10px;">
+		<button id="edit" class="btn btn-default" disabled>
+			 功能配置
+		</button>
+		<div class="right">
+			<div class="form-inline">
+			  <div class="form-group">
+			    <input type="text" class="form-control right" name="roleName" id="role" placeholder="角色名称">
+			  </div>
+			  &nbsp;
+			  <button id="add" class="btn btn-success right" onclick="save()">
+					添加角色
+			  </button>
+			</div>
+		</div>
+	</div>
+    <table class="table" id="table"
+			data-url="/ctp/system/getRoleList" >
+	</table>
+  </div>
+</div>
+<!-- Modal addNotice-->
+<div class="modal fade" id="msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div id="msg-content" class="modal-body" style="text-align: center;">
+        	
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">$(function () {
+	initTable();
+});
+
+function initTable(){
+	$('#table').bootstrapTable({
+		columns : [{
+			field: 'state',
+			checkbox: 'true'
+		},{
+			field : 'id',
+			title : '角色编号'
+		}, {
+			field : 'roleName',
+			title : '角色名称'
+		}, {
+			field : 'operate',
+			title : '操作',
+			align : 'center',
+			formatter : function(value, row, index) {
+				var d = "<a class = 'remove' href='javascript:void(0)'>删除</a>";
+				return  d;
+			},
+			events : 'operateEvents'
+		} ],
+		pagination: true,
+		pageSize: 10,
+		pageNumber: 1,
+		pageList: [10,25,50],
+		formatLoadingMessage: function () {
+		    return "请稍等，正在加载中...";
+		},
+		formatNoMatches: function () {  //没有匹配的结果
+		    return '无符合条件的记录';
+		},
+		formatShowingRows: function(pageFrom,pageTo,totalRows){
+			return "显示第"+ pageFrom +"到第"+pageTo+"条记录，总共"+totalRows+"条记录";
+		},
+		formatRecordsPerPage: function(pageNumber){
+			return "每页显示"+pageNumber+"条记录";
+		}
+	});
+}
+
+var operateEvents = {
+		'click .remove' : function(e, value, row, index) {
+			remove(row);
+		}
+	};
+
+	/**
+	 * 刷新
+	 */
+	function reload(){
+		$('#table').bootstrapTable('refresh');
+	}
+
+	/**
+	 * 删除
+	 * @param row
+	 */
+	function remove(row){
+		$.ajax({
+			url:"/ctp/system/delRole",
+			type:"POST",
+			data:{
+				"id":row.id
+			},
+			success:function(data){
+				$("#msg-content").empty().html(data.msg);
+				$("#msg").modal('show');
+				reload();
+			},
+			error:function(data){
+				
+			}
+		})
+	}
+
+	$('#table').on('check.bs.table uncheck.bs.table ' +
+	        'check-all.bs.table uncheck-all.bs.table', function () {
+	    $('#edit').prop('disabled', !$('#table').bootstrapTable('getSelections').length);
+	    selections = getIdSelections();
+	});
+	
+	function setFunc(ids){
+		var e = $.find(".active");
+		var params = {
+			"ids" : ids
+		}
+		showContent(
+				e,"/ctp/system/toSetFunc",params);
+	}
+	
+	function save(){
+		var roleName = $("#role").val();
+		$.ajax({
+			url:"/ctp/system/addRole",
+			data:{
+				"roleName":roleName
+			},success:function(data){
+				$("#msg-content").empty().html(data.msg);
+				$("#msg").modal('show');
+				reload();
+			},error:function(data){
+				
+			}
+		})
+	}
+	
+	$('#edit').click(function () {
+	    var ids = getIdSelections();
+	    setFunc(ids);
+	    $('#edit').prop('disabled', true);
+	});
+
+	function getIdSelections() {
+	    return $.map($('#table').bootstrapTable('getSelections')
+	    		, function (row) {
+	        return row.id
+	    });
+	}
+</script>
+</html>

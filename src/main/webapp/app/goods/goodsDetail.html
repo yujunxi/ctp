@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>校园二手交易平台</title>
+<link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
+<link href="/resources/css/common.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
+<style type="text/css">
+.m{
+	font-size:15px;
+	font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+}
+.msg1{
+	text-align:center;
+	margin-bottom:20px;
+	font-size:15px;
+	font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+}
+</style>
+</head>
+<body>
+	<div class="mNavBar">
+		<div class="topBar">
+			<div class="container">
+				<div class="left">
+					<a href="/ctp" style="text-decoration: none;">
+						首页
+					</a>
+				</div>
+				<div class="right">
+					<span class="back">
+					<a href="#" style="text-decoration: none;" onclick="test1()">
+					发布闲置&nbsp;&nbsp;</a></span>
+					<#if account?exists>
+					<span class="back">
+					<a href="/ctp/user/space" style="text-decoration: none;">
+					消息盒子&nbsp;<span id="box" class="badge1" style="">0</span>&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/shopCar/main" style="text-decoration: none;">
+					购物车&nbsp;&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/order/main" style="text-decoration: none;">订单&nbsp;&nbsp;</a></span>
+					<a href="/ctp/user/space">
+				        	${account}&nbsp;&nbsp;
+					</a>
+					<a href="/ctp/account/logout" style="text-decoration: none;">退出</a>
+					<#else >
+				    <a href="ctp/account/login" style="text-decoration: none;">登录&nbsp;&nbsp;</a>
+				    <a href="ctp/account/register" style="text-decoration: none;">注册</a>    	
+				    </#if>
+				</div>
+			</div>
+		</div>
+		<div class="toolBar" style="text-align: center;">
+			<div class="container">
+				<div class="logo left"><img src="/resources/images/logo.png" width="300px;"></div>
+				<div class="search">
+					<form class="form-inline">
+					  <div class="form-group" style="margin-left:-300px;">
+					    <input type="text" id="goodsName" name="goodsName" class="form-control" placeholder="商品名"
+					    	style="width:300px;">
+					  </div>
+					  <button type="button" class="btn btn-default" style="margin-top:3px;" onclick="search()">搜索</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div><!-- navbar end-->
+	
+	<div class="container" >
+		<div class="content">
+			<div class="left m-t" style="margin-left:100px;">
+				<img src="/goods/${good.imgName!''}"  width="400"/>
+			</div>
+			<div class="left m-t" style="margin-left:30px;font-size:20px;">
+				<div >商品名：${good.goodsName!""}</div>
+				<hr style="width:500px;">
+				<div>价格：<span style="color:orange;">${good.price!""}&nbsp;&nbsp;元</span></div>
+				<div style="width:250px;">
+				<div class="input-group">
+				  联系电话：${good.tel!""}
+				</div>
+				<div class="input-group">
+				   联系地址：${good.address!""}
+				</div>
+				<div class="input-group">
+				   商品介绍：${good.introduce!""}
+				</div>
+				<div class="input-group">
+				  数量：<input type="button" id="sub" class="btn btn-default" value="-" onclick="sub()"/>&nbsp;
+				  <input id="num" type="text" style="width:40px;height:30px;" value="1">
+				  &nbsp;<input class="btn btn-default" id="sum" type="button" value="+" onclick="sum()"/>
+				</div>
+				<div class="input-group">
+				  商品剩余数量：${good.num!''}
+				</div>
+				<div class="left" style="margin-top:20px;">
+				<input type="button" class="btn btn-primary" value="加入购物车" onclick="addShopCar()"/>
+				<input type="button" class="btn btn-primary" value="购买" onclick="addOrder()"/>
+				</div>
+				</div>
+			</div>
+			
+		</div><!-- good detail -->
+	</div>
+	<div class="container" style="margin-top:30px;" >
+		<ul class="nav nav-tabs nav-justified" style="width:100px;">
+  		 <li role="presentation" class="active"><a href="#">留言记录</a></li>
+		</ul>
+		<div class="message m-b m-t" style="width:600px;border:1px solid #ddd;margin-top:-2px;">
+		<span style="font-size:20px;">
+		</span>
+			<div class="m" id="message" style="margin-top:10px;">
+			</div>
+		</div><!-- good msgMain -->
+		<div class="msg" style="width:600px;">
+		<textarea class="form-control" rows="4" placeholder="留言内容长度不能大于30" id="content"></textarea>
+		</textarea>
+		<input type="button" onclick="message()" class="btn btn-default right" style="margin-left:30px;margin-top:10px;" value="留言"/>
+		</div><!-- good msg -->
+	</div>
+	
+	<div class="footer-top"></div>
+	<div class="footer">
+		<div class="footer-wrp">
+			<div style="font-size:14px;">
+			<span>关于我们</span>&nbsp;|&nbsp;<span>联系我们</span>&nbsp;|&nbsp;<span>友情链接</span>
+			</div>
+			<div style="font-size:14px;">
+			https://github.com/yujunxi/ctp
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="msg">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示消息</h4>
+      </div>
+      <div class="modal-body">
+        	您还没有登录系统...请登录
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="window.location='/ctp/account/login'">登录</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</body>
+<script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
+<script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
+<script type="text/javascript">
+var account = "${account!''}";
+$(function(){
+	getBox();
+})
+
+var d = parseInt(${good.num!''});
+var admin = "${account!''}";
+$(function(){
+	loadMsg();	//加载商品留言
+	status();
+	$('#num').bind('input propertychange', function() {
+		  var num = $("#num").val();
+		  var type = /^[0-9]*[1-9][0-9]*$/;
+		  var result=  type.test(num);
+		  if(!result){
+		      $('#num').val(1); 
+		  }
+	});
+});
+function test1(){
+	if(account==""){
+		$("#myModal").modal('show');
+	}else{
+		window.location="/ctp/goods/publishMain";
+	}
+}
+function message(){
+	var content = $("#content").val();
+	if(admin==""||admin==null){
+		$("#msg").modal("show")
+	}else{
+		if(content.length<=30){
+			$.ajax({
+				url:"/ctp/message/addMsg",
+				data:{
+					"author":"${account!''}",
+					"content":content,
+					"goodsCode":${good.goodsCode!''},
+					"seller":"${good.seller!''}"
+				},
+				type:"POST",
+				success:function(data){
+					alert(data.message);
+					$("#content").empty().val("")
+					loadMsg();
+				},error:function(data){
+					alert(data.message);
+					$("#content").empty().val("")
+				}
+			})
+		}else{
+			alert("留言内容长度不能大于30")
+		}
+		
+	}
+}
+//加载留言
+function loadMsg(){
+	$.ajax({
+		url:"/ctp/message/getMsg",
+		data:{
+			"goodsCode":${good.goodsCode!''}
+		},
+		type:"GET",
+		success:function(data){
+			if(data.length>0){
+				$("#message").empty()
+				for(var i=0;i<data.length;i++){
+					var msg = $("<div style='border-bottom:1px solid #CCC;min-height:100px;text-align:50px;padding:10px;'>"+
+					"<div class='left' style='margin-left:10px'>"+data[i].content+"</div>"+
+					"<div class='right'style='text-align:right;margin-top:70px;'>来自:admin&nbsp;&nbsp;&nbsp;"+new Date(data[i].createTime).toLocaleDateString()+"</div></div></div>");
+					msg.appendTo("#message");
+				}
+			}else{
+				var msg2 = $("<div class='msg1'>暂时没有留言</div>");
+				msg2.appendTo("#message");
+			}
+		},error:function(data){
+			
+		}
+	})
+}
+
+function addShopCar(){
+	var nums = parseInt($("#num").val());
+	if(admin==""||admin==null){
+		$("#msg").modal("show")
+	}else{
+		if(nums<=d){
+			$.ajax({
+				url:"/ctp/shopCar/add",
+				data:{
+					"goodsImg":"${good.imgName!''}",
+					"goodsCode":"${good.goodsCode!''}",
+					"goodsName":"${good.goodsName!''}",
+					"goodsNum":parseInt($("#num").val()),
+					"owner":"${account!''}",
+					"seller":"${good.seller!''}",
+					"goodsPrice":"${good.price!''}"
+				},
+				success:function(){
+					alert("添加到购物车");
+				},
+				error:function(){
+					alert("添加失败");
+				}
+			});
+		}else{
+			alert("库存不足")
+		}
+		
+	}
+}
+
+function addOrder(){
+	var nums = parseInt($("#num").val());
+	if(admin==""||admin==null){
+		$("#msg").modal("show")
+	}else{
+		if(nums<=d){
+		$.ajax({
+			url:"/ctp/order/add",
+			data:{
+				"goodsCode":"${good.goodsCode!''}",
+				"goodsName":"${good.goodsName!''}",
+				"goodsNum":"${good.num!''}",
+				"owner":"${account!''}",
+				"seller":"${good.seller!''}",
+				"goodsPrice":"${good.price!''}"
+			},
+			success:function(data){
+				alert(data);
+			},
+			error:function(data){
+				alert(data);
+			}
+		});
+		}else{
+			alert("库存不足")
+		}
+	}
+}
+function status(){
+	var s = parseInt($("#num").val());
+	var d = parseInt(${good.num!''});
+	if(s==1){
+		$("#sub").attr("disabled",true);
+	}else if(s>0){
+		$('#sub').attr("disabled",false);
+	}
+}
+function sub(){
+	var n = parseInt($("#num").val());
+	$("#num").val(n-1);
+	status();
+}
+function sum(){
+	var n = parseInt($("#num").val());
+	$("#num").val(n+1);
+	if(n==d-1){
+		$("#sum").attr("disabled",true);
+	}
+	status();
+}
+function getBox(){
+	$.ajax({
+		url:"/ctp/box/list",
+		type:"GET",
+		success:function(data){
+			$("#box").empty().html(data.length);
+		},
+		error:function(data){
+			
+		}
+	})
+}
+</script>
+</html>

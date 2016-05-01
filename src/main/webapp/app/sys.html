@@ -3,45 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <title>后台管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="/resources/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/app.css" rel="stylesheet">
 <link href="/resources/css/sys.css" rel="stylesheet">
-<style type="text/css"></style>
+<link href="/resources/css/common.css" rel="stylesheet">
+<style type="text/css">
+.navbar-blue{
+    background-color: #289de7;
+    border-color: #080808;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: #eee;
+}
+#admin{
+	font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+}
+#admin li a{
+	font-size:14px;
+	color:white;
+	background:#289de7;
+}
+#admin li a:hover{
+	background:#428bca;
+	color:white;
+}
+.node_menu li{
+	height:30px;
+	font-size:14px;
+	padding:10px 10px 10px 30px;
+	border-bottom:1px solid #eee;
+}
+.node_menu li{
+	height:30px;
+	padding:10px 10px 30px 30px;
+	border-bottom:1px solid #eee;
+}
+.node_menu li a{
+}
+.node_menu li a:hover,
+.node_menu li a:focus{
+	text-decoration: none;
+}
+.node_menu li:hover{
+	border-right:3px solid #289ee7;
+}
+.node_menu li.active1{
+	border-right:3px solid #289ee7;
+}
+.reset:hover,.logout:hover{
+	background:#289ee7;
+	color:white;
+}
+</style>
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top">
+	<nav class="navbar navbar-blue navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-			<div class="navbar-brand">后台管理系统</div>
+			<div class="navbar-brand" style="color:white;">校园二手交易平台管理系统</div>
 		</div>
-		<ul class="nav navbar-nav navbar-right">
-			<li><a href="javascript:void(0);" style="color:#FFF;">Admin</a></li>
+		<ul class="nav navbar-nav navbar-right admin" id="admin" >
+			<li>
+				<a class="" href="javascript:void(0);"  class="dropdown-toggle" 
+				data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<#list admin as user>
+						${user.account!''}
+					</#list>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+				    <li><div class="reset" style='text-align:center;margin-bottom:5px;'>修改密码</div></li>
+		            <li><div class="logout" style='text-align:center' onclick="window.location='/ctp/system/logout'">退出</div></li>
+         		 </ul>
+			</li>
 		</ul>
 		</div>
 	</nav>
-	
-
 	<div class="container-fluid">
 		<div class="row">
 			<!-- slidingmenu -->
+			<div class="col-md-2">
 			<div class="sidebar" style="width:210px;">
 				<ul id="menu" class="nav nav-sidebar">
-					<li class="active"><a id="home_main" href="javascript:void(0);" onclick="">首页</a></li>
-					<li><a id="sys_main" href="javascript:void(0);" onclick="showContent(this,'/ctp/sys/sysMain','')">系统管理</a></li>
-					<li><a id="user_main" href="javascript:void(0);" onclick="showContent(this,'/ctp/user/userMain')">会员管理</a></li>
-					<li><a href="javascript:void(0);" onclick="showContent(this)">商品管理</a></li>
-					<li><a href="javascript:void(0);" onclick="showContent(this)">订单管理</a></li>
-					<li><a href="javascript:void(0);" onclick="showContent(this)">留言管理</a></li>
-					<li><a href="javascript:void(0);" onclick="showContent(this)">增值服务</a></li>
-					<li><a href="javascript:void(0);" onclick="showContent(this)">报表统计</a></li>
+					<li style="border-bottom:1px solid #D3D3D3;" onclick="test()">
+						<div style="font-size:16px;margin-left:55px;
+						font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+						margin-top:-10px;margin-bottom:10px;">
+							<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+							功能菜单
+						</div>
+					</li>
+					<#list funcList as func>
+						<#if func=='1'>
+							<li class="active">
+								<a id="main" href="javascript:void(0);" onclick="showContent(this,'/ctp/system/welcome')"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;首页</a>
+							</li>
+						</#if>
+					</#list>	
+					<#list funcList as func>
+						<#if func=='2'>
+						<li>
+							<a id="sys_main" onclick="showContent(this,'')"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;系统管理</a>
+							<ul class="node_menu">
+								<#list funcList as func>
+									<#if func=='3'>
+										<li class="active1"><a href="javascript:void(0);" onclick="showNodeContent(this,'/ctp/system/sysMain')">基础设置</a></li>
+									</#if>
+								</#list>
+								<#list funcList as func>
+									<#if func=='3'>
+										<li><a href="javascript:void(0);" onclick="showNodeContent(this,'/ctp/sysUser/main')">用户管理</a></li>
+									</#if>
+								</#list>
+								<#list funcList as func>
+									<#if func=='9'>
+										<li><a href="javascript:void(0);" onclick="showNodeContent(this,'/ctp/system/roleMain')">角色设置</a></li>
+									</#if>
+								</#list>
+								<#list funcList as func>
+									<#if func=='10'>
+										<li><a href="javascript:void(0);" onclick="showNodeContent(this,'/ctp/system/funcMain')">功能设置</a></li>
+									</#if>
+								</#list>
+							</ul>
+						</li>
+						</#if>
+					</#list>
+					<#list funcList as func>
+						<#if func=='3'>
+					<li><a id="user_main" href="javascript:void(0);" onclick="showContent(this,'/ctp/user/userMain')"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;会员管理</a></li>
+						</#if>
+					</#list>
+					<#list funcList as func>
+						<#if func=='4'>
+					<li onclick="showContent(this,'/ctp/goods/goodsMain')"><a href="javascript:void(0);"><span class="glyphicon glyphicon-inbox" aria-hidden="true"></span>&nbsp;&nbsp;商品管理</a></li>
+						</#if>
+					</#list>
+					<#list funcList as func>
+						<#if func=='5'>
+					<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/order/orderMain')"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;&nbsp;订单管理</a></li>
+						</#if>
+					</#list>
+					<#list funcList as func>
+						<#if func=='6'>
+					<li><a href="javascript:void(0);" onclick="showContent(this,'/ctp/message/msgMain')"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;留言管理</a></li>
+						</#if>
+					</#list>
+					<#list funcList as func>
+						<#if func=='7'>
+					<!-- <li><a href="javascript:void(0);" onclick="showContent(this)">增值服务</a></li> -->
+						</#if>
+					</#list>
 				</ul>
 			</div><!-- slidingmenu end -->
-			<div class="col-md-2"></div>
-			<div class="col-md-10" style="margin-top:70px;">
+			</div>
+			<div id="t" class="col-md-10" style="margin-top:70px">
 				<div id="content">
 					
 				</div>
 			</div>
 		</div>
+	</div>
+	<div style=" position: fixed;top: 300px;bottom: 0; left: 0;z-index: 1100;">
 	</div>
 </body>
 <script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
@@ -49,14 +174,38 @@
 <script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
 <script type="text/javascript"></script>
 <script type="text/javascript">
+	var status = 1;
 	$(function() {
+		$("[data-toggle='popover']").popover();
+	 	$("#content").load('/ctp/system/welcome',null,function(response, status, xhr) {
+	 		
+		}); 
+		$(".node_menu").hide();
+		$("#sys_main").click(function(){
+			$(".node_menu").toggle(1000);
+		})
 	})
 	function showContent(e,url,data){
 		$("#menu li.active").removeClass("active");
 		$(e).closest("li").addClass("active");
+		if(url!=''){
+			$("#content").load(url,data,function(response, status, xhr) {
+				$("#content").fadeIn();
+			});
+		}else{
+			$("#content").load('/ctp/system/sysMain',null,function(response, status, xhr) {
+				$("#content").fadeIn();
+			});
+		}
+	}
+	function showNodeContent(e,url,data){
+		$(".node_menu li.active1").removeClass("active1");
+		$(e).closest("li").addClass("active1");
 		$("#content").load(url,data,function(response, status, xhr) {
-			
+			$("#content").fadeIn();
 		});
+	}
+	function test(){
 	}
 </script>
 </html>

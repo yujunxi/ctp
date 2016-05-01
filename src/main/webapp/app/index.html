@@ -7,35 +7,97 @@
 <link href="/resources/lib/bootstrap-table.css" rel="stylesheet">
 <link href="/resources/css/common.css" rel="stylesheet">
 <link href="/resources/css/app.css" rel="stylesheet">
+<style type="text/css">
+.list-group-items {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.list-group-items a{
+  text-decoration: none;
+}
+.list-group-items:hover{
+  background:#289ee7;
+  color:white;
+  text-decoration: none;
+}
+.notice ul{
+	margin-top:-5px;
+}
+.notice ul li{
+	margin-bottom:3px;
+	font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+	list-style-type:none;  
+}
+.notice-title{
+	font-size:14px;
+}
+.time{
+	font-size:12px;
+	line-height:22px;
+}
+.more1{
+	font-size:14px;
+	font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif;
+}
+.more1 a{
+	text-decoration:none;
+}
+
+.back{
+	padding:11px;
+}
+.back:hover{
+	background:#f6f6f6;
+}
+</style>
 </head>
-<body>
+<body style="font-family:'Microsoft YaHei',Arial,Helvetica,sans-serifsans-serif">
 	<div class="mNavBar">
 		<div class="topBar">
 			<div class="container">
 				<div class="left">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<a href="javascript:void(0);">
+					<a href="/ctp" style="text-decoration: none;">
 						首页
 					</a>
 				</div>
 				<div class="right">
-					<a>消息<span class="badge">0</span></a>
-					<a>订单</a>
-					<a href="/ctp/user/space">${Session.account!""}</a>
-					<a href="/ctp/account/logout">退出</a>
+					<span class="back">
+					<a href="#" style="text-decoration: none;" onclick="test1()">
+					发布闲置&nbsp;&nbsp;</a></span>
+					<#if account?exists>
+					<span class="back">
+					<a href="/ctp/user/space" style="text-decoration: none;">
+					消息盒子&nbsp;<span id="box" class="badge1" style=""></span>&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/shopCar/main" style="text-decoration: none;">
+					购物车&nbsp;&nbsp;</a></span>
+					<span class="back">
+					<a href="/ctp/order/main" style="text-decoration: none;">订单&nbsp;&nbsp;</a></span>
+					<a href="/ctp/user/space">
+				        	${account}&nbsp;&nbsp;
+					</a>
+					<a href="/ctp/account/logout" style="text-decoration: none;">退出</a>
+					<#else >
+				    <a href="ctp/account/login" style="text-decoration: none;">登录&nbsp;&nbsp;</a>
+				    <a href="ctp/account/register" style="text-decoration: none;">注册</a>    	
+				    </#if>
 				</div>
 			</div>
 		</div>
 		<div class="toolBar" style="text-align: center;">
 			<div class="container">
-				<div class="logo left">LOGO</div>
+				<div class="logo left"><img src="/resources/images/logo.png" width="300px;"></div>
 				<div class="search">
 					<form class="form-inline">
-					  <div class="form-group">
-					    <input type="text" class="form-control" placeholder="商品名"
+					  <div class="form-group" style="margin-left:-300px;">
+					    <input type="text" id="goodsName" name="goodsName" class="form-control" placeholder="商品名"
 					    	style="width:300px;">
 					  </div>
-					  <button type="button" class="btn btn-default" style="margin-top:3px;">搜索</button>
+					  <button type="button" class="btn btn-default" style="margin-top:3px;" onclick="search()">搜索</button>
 					</form>
 				</div>
 			</div>
@@ -44,30 +106,27 @@
 
 	<div class="container" >
 		<div class="content">
-			<div class="list-group list-width left m-r" >
-				<a href="#" class="list-group-item active"> 书籍 </a>
-				<a href="#" class="list-group-item"> 电脑 </a>
-				<a href="#" class="list-group-item"> 电子产品 </a>
-				<a href="#" class="list-group-item"> 生活用品</a>
-				<a href="#" class="list-group-item"> 其他 </a>
-				<a href="#" class="list-group-item"> 其他 </a>
-				<a href="#" class="list-group-item"> 其他 </a>
+			<div id="#list" class="list-group list-width left m-r">
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('digital')"> 闲置数码 </a>
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('home')"> 闲置家具 </a>
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('book')"> 闲置书籍</a>
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('electronic')"> 电子产品</a>
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('live')"> 生活用品 </a>
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('clothes')"> 衣服饰品 </a>
+				<a href="javascript:void(0)" class="list-group-items" onclick="findGoods('other')"> 其他 </a>
 			</div>
-			<div class="left" style="width: 580px;">
+			<div class="left" style="width: 625px;">
 				<div id="carousel-example-generic" class="carousel slide"
 					data-ride="carousel">
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
-						<li data-target="#carousel-example-generic" data-slide-to="0"
-							class="active"></li>
+						 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					     <li data-target="#myCarousel" data-slide-to="1"></li>
+					     <li data-target="#myCarousel" data-slide-to="2"></li>
 					</ol>
 
 					<!-- Wrapper for slides -->
-					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<img src="/resources/images/QQ图片20160304133628.png">
-							<div class="carousel-caption">...</div>
-						</div>
+					<div class="carousel-inner" role="listbox"  style='width:625px;height:267px;'>
 					</div>
 
 					<!-- Controls -->
@@ -83,20 +142,16 @@
 				</div>
 			</div>
 			
-			<div class="left m-l" style="border:1px solid #DDD;width:318px;height:265px;">
+			<div class="left m-l" style="border:1px solid #DDD;width:275px;height:265px;">
 				<div class="title left">
-					系统公告
+					热门商品
 				</div>
 				<div class="more right">
-					更多
+					<a href="javascript:void(0);">更多</a>
 				</div>
-				<div style="margin-top:42px;padding:15px;border-top:1px solid #EEE">
-					<ul style="list-style-type:none;font-size:14px;">
-						<li>这是系统公告信息</li>
-						<li>这是系统公告信息</li>
-						<li>这是系统公告信息</li>
-						<li>这是系统公告信息</li>
-						<li>这是系统公告信息</li>
+				<div class="notice" style="margin-top:33px;padding:15px;border-top:1px solid #EEE">
+					<ul>
+						
 					</ul>
 				</div>
 			</div>
@@ -104,8 +159,8 @@
 	</div>
 	
 	<div class="container">
-		<div class="list left" style="margin-top:-10px;border:1px solid #EEE;width:929px;height:300px;">
-			<div class="hot" style="width:929px;">
+		<div class="list left" style="margin-top:10px;border:1px solid #EEE;width:1140px;height:300px;">
+			<div class="hot" style="width:1140px;">
 				<div class="title left">
 					热门商品
 				</div>
@@ -114,111 +169,252 @@
 				</div>
 			</div>
 		
-			<div style="margin-top:42px;padding:15px;border-top:1px solid #EEE">
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+			<div id="hot" style="margin-top:32px;padding:20px 20px 10px 20px;border-top:1px solid #EEE">
+				<div id="list" class="left m-r" style="margin-left:30px;border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="hot_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="hot_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="hot_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="hot_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="hot_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
+				
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="hot_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
+				</div>
+				
 			</div>
+			
 		</div>
 		
-		<div class="msg right m-l" style="margin-top:-10px;border:1px solid #EEE;width:200px;height:300px;">
-				<div class="title left">
-					求购商品
-				</div>
-				<div class="more right">
-					更多
-				</div>
-				<div style="margin-top:42px;padding:15px;border-top:1px solid #EEE">
-					<ul style="list-style-type:none;font-size:14px;">
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-						<li>这是求购信息</li>
-					</ul>
-				</div>
-		</div>
 	</div>
 	
 	<div class="container">
-		<div class="list left m-t" style="border:1px solid #EEE;width:929px;height:300px;">
-			<div class="hot" style="width:929px;">
+		<div class="list left m-t" style="border:1px solid #EEE;width:1140px;height:300px;">
+			<div class="hot" style="width:1140px;">
 				<div class="title left">
-					热门商品
+					最新商品
 				</div>
 				<div class="more right">
 					更多
 				</div>
 			</div>
 		
-			<div style="margin-top:42px;padding:15px;border-top:1px solid #EEE">
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+			<div id="new" style="margin-top:32px;padding:20px 20px 10px 20px;border-top:1px solid #EEE">
+				<div id="list" class="left m-r" style="margin-left:30px;border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="new_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="new_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="new_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left m-r" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="new_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
-				<div class="left" style="border:1px solid #EEE;width:170px;padding:10px;text-align:center;">
-					<img src="/resources/images/goods.png" style="width:150px" />
-					<div class="m-t">商品名</div>
-					<div class="m-t">$10</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="new_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
+				</div>
+				<div id="list" class="left m-l m-r" style="border:1px solid #EEE;width:156px;padding:10px;text-align:center;">
+					<a href="javascript:void(0);" id="" onclick="showGoods(this)">
+					<img src="" style="width:130px" />
+					<div class="m-t" id="new_good"></div>
+					<div class="m-t" id="price"></div>
+					</a>
 				</div>
 			</div>
 		</div>
 		</div>
 		
-	
-	
 	<div class="footer-top"></div>
 	<div class="footer">
 		<div class="footer-wrp">
-			<p>这是底部</p>
+			<div style="font-size:14px;">
+			<span>关于我们</span>&nbsp;|&nbsp;<span>联系我们</span>&nbsp;|&nbsp;<span>友情链接</span>
+			</div>
+			<div style="font-size:14px;">
+			https://github.com/yujunxi/ctp
 		</div>
 	</div>
+</div>
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示消息</h4>
+      </div>
+      <div class="modal-body">
+        	您还没有登录系统...请登录
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="window.location='/ctp/account/login'">登录</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 <script type="text/javascript" src="/resources/lib/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script> 
 <script type="text/javascript" src="/resources/lib/bootstrap-table.js"></script> 
 <script type="text/javascript">
+var admin = "${account!''}";
+$(function(){
+	test();
+	loadNotice();
+	getBox();
+});
+$.ajax({
+	url:"/ctp/goods/getNewGoodsList",
+	type:"GET",
+	success:function(data){
+		$("#new #list").each(function(index){
+			var imageFile = "/goods/"+data[index].imgName;
+			$(this).find("#new_good").html(data[index].goodsName);
+			$(this).find("#price").html('$'+data[index].price);
+			$(this).find("img").attr("src",imageFile);
+			$(this).find("a").attr("id",data[index].goodsCode);
+		})
+	}
+})
+
+$.ajax({
+	url:"/ctp/goods/getHotGoodsList",
+	type:"GET",
+	success:function(data){
+		$("#hot #list").each(function(index){
+			var imageFile = "/goods/"+data[index].imgName;
+			$(this).find("#hot_good").html(data[index].goodsName);
+			$(this).find("#price").html('$'+data[index].price);
+			$(this).find("img").attr("src",imageFile);
+			$(this).find("a").attr("id",data[index].goodsCode);
+		})
+	}
+})
+$.ajax({
+	url:"/ctp/system/getCarousel",
+	type:"GET",
+	success:function(data){
+			var imageFile = "/carousel/"+data[0].filePath;
+			var $li_1= $("<div class='item active'><img src="+imageFile+"></div>");
+			$(".carousel-inner").append( $li_1);
+			var imageFile2 = "/carousel/"+data[1].filePath;
+			var $li_2= $("<div class='item'><img src="+imageFile2+"></div>");
+			$(".carousel-inner").append( $li_2);
+			var imageFile3 = "/carousel/"+data[2].filePath;
+			var $li_3= $("<div class='item'><img src="+imageFile3+"></div>");
+			$(".carousel-inner").append( $li_3);
+	}
+})
+function search(){
+	var goodsName = $("#goodsName").val();
+	window.location.href = '/ctp/goods/search?goodsName='+goodsName;
+}
+function showGoods(e){
+	var id = $(e).attr("id");
+	window.location.href = '/ctp/goods/getGoods?goodsCode='+id;
+}
+
+function test(){
+	 // 初始化轮播
+    $("#carousel-example-generic").carousel({
+	   interval: 3000
+    });
+    $(".start-slide").click(function(){
+       $("#myCarousel").carousel('cycle');
+    });
+}
+
+function loadNotice(){
+	$.ajax({
+		url:"/ctp/notice/list2",
+		type:"GET",
+		success:function(data){
+			for(var i = 0 ; i < data.length ; i++){
+				var li = $('<li><span class="notice-title" style="word-wrap:break-word;">'+data[i].title+'</span>'+
+				'<span class="time right">'+new Date(data[i].createTime).toLocaleDateString()+'</span></li>').appendTo(".notice ul");
+			}
+		},
+		error:function(data){
+			
+		}
+	})
+}
+function test1(){
+	if(admin==""){
+		$("#myModal").modal('show');
+	}else{
+		window.location="/ctp/goods/publishMain";
+	}
+}
+function findGoods(type){
+	window.location="/ctp/goods/search?goodsType="+type;
+}
+function getBox(){
+	$.ajax({
+		url:"/ctp/box/list",
+		type:"GET",
+		success:function(data){
+			$("#box").empty().html(data.length);
+		},
+		error:function(data){
+			
+		}
+	})
+}
 </script>
 </html>

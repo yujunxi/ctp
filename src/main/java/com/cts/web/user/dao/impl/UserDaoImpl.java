@@ -1,5 +1,8 @@
 package com.cts.web.user.dao.impl;
 
+import java.util.List;
+
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cts.common.dao.impl.GenericDaoImpl;
@@ -19,14 +22,23 @@ public class UserDaoImpl extends GenericDaoImpl<User,String> implements UserDao 
      * 验证会员账号
      */
 	public Boolean validate(String account, String password) {
-		User user = this.get(account);
-		if(user!=null){
-			if(user.getPassword().equals(password)){
-				return true;
-			}else{
-				return false;
-			}
-		}
-		return false;
+		String hql = "from User where account=? and password=?";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setString(0, account);
+		query.setString(1, password);
+		List<User> userList = query.list();
+		return userList.size()>0?true:false;
+	}
+
+	/**
+	 * 获取用户信息
+	 */
+	public List<User> findByAccount(String account) {
+		// TODO Auto-generated method stub
+		String hql = "from User where account=?";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setString(0, account);
+		List<User> userList = query.list();
+		return userList;
 	}
 }
